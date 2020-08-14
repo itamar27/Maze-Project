@@ -1,8 +1,13 @@
 #pragma once
 #include <queue>
+#include <vector>
+
+
 
 #include "Searchable.h"
-
+#include "State.h"
+#include "Solution.h"
+#include "../Maze2d/MazeSearchable.h"
 
 /*
  * --------------------------------------------------------------------
@@ -15,10 +20,12 @@ template <class T>
 class SearchAlgorithm
 {
 public:
-	virtual void solve(const Searchable<T> &s) = 0;
+	SearchAlgorithm(){}
+	~SearchAlgorithm(){}
+public:
+	virtual Solution<T> solve(Searchable<T> *s) = 0;
 	virtual int getNumOfEvaluatedNodes() = 0;
 };
-
 
 /*
  * --------------------------------------------------------------------
@@ -29,19 +36,30 @@ public:
  */
 
 template <class T>
-class CommonSearcher : public SearchAlgorithm
+class CommonSearcher : public SearchAlgorithm<T>
 {
-public:
-	virtual int getNumOfEvaluatedNodes(){return };
 
 public:
-	const State<T>& popList(){_evaluatedNodes ++; return _openList.pop();}
+	CommonSearcher() : _evaluatedNodes(0) {}
+	~CommonSearcher(){};
 
-private:
+public:
+	virtual Solution<T> solve(Searchable<T> *s) = 0;
+	virtual int getNumOfEvaluatedNodes() { return _evaluatedNodes; };
+
+public:
+	const State<T> &popList()
+	{
+		_evaluatedNodes++;
+		State<T> tmp = _openList.top();
+		_openList.pop();
+		return tmp;
+	}
+
+protected:
 	int _evaluatedNodes;
 	std::priority_queue<State<T>> _openList;
 };
-
 
 /*
  * --------------------------------------------------------------------
@@ -50,20 +68,24 @@ private:
  * --------------------------------------------------------------------
  */
 template <class T>
-class BFS : public CommonSearcher
+class BFS : public CommonSearcher<T>
 {
 public:
-	virtual void solve(const Searchable<T>& s;
-};
+	BFS() : CommonSearcher<T>() {}
+	virtual ~BFS(){};
 
+public:
+	virtual Solution<T> solve(Searchable<T> *s);
+};
 
 /*
  * --------------------------------------------------------------------
  *       Class: A*
  *		 Description: This class implements a generic A* algorithm for any kind of searcherable class
  * --------------------------------------------------------------------
- */template <class T>
-class Astar : public CommonSearcher
+ */
+template <class T>
+class Astar : public CommonSearcher<T>
 {
 public:
 };

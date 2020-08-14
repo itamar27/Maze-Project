@@ -1,4 +1,8 @@
-#include "Maze2dGenerator.h"
+#include "Maze2d/Maze2dGenerator.h"
+#include "SearchAlgorithm/SearchAlgorithm.h"
+#include "SearchAlgorithm/Searchable.h"
+#include "SearchAlgorithm/State.h"
+#include "Maze2d/Position.h"
 
 int main()
 {
@@ -15,28 +19,29 @@ int main()
     std::cout << "Time to create maze: " << time << m2d << "\n";
     */
 
-    MyMaze2dGenerator myMaze;
-    std::cout << "Time to run " << myMaze.measureAlgorithmTime("Barak", 40, 40) << std::endl;
+    // MyMaze2dGenerator myMaze;
+    // std::cout << "Time to run " << myMaze.measureAlgorithmTime("Barak", 40, 40) << std::endl;
 
-    Maze2d maze = myMaze.generate("Barka", 40, 40);
+    // Maze2d maze = myMaze.generate("Barka", 40, 40);
 
-    Position p = maze.getGoalPosition();
-    std::cout << "goal: " << p << std::endl;
+    // Position p = maze.getGoalPosition();
+    // std::cout << "goal: " << p << std::endl;
     
-    std::string* moves = maze.getPossibleMoves(p);  
+    // std::string* moves = maze.getPossibleMoves(p);  
 
-    std::cout<<"Possible move is: "<<std::endl;
-    for(int i = 0; i < 4; i++)
-    {   
-        if(moves[i] == "" )
-            continue;
-        else
-        {
-            std::cout<< moves[i]<<std::endl;
-        }        
-    }
+    // std::cout<<"Possible move is: "<<std::endl;
+    // for(int i = 0; i < 4; i++)
+    // {   
+    //     if(moves[i] == "" )
+    //         continue;
+    //     else
+    //     {
+    //         std::cout<< moves[i]<<std::endl;
+    //     }        
+    // }
 
-    std::cout<<"entrance: " << maze.getStartPosition()<<std::endl;
+    // std::cout<<"entrance: " << maze.getStartPosition()<<std::endl;
 
-    std::cout<< maze<<std::endl;
+    // std::cout<< maze<<std::endl;
+    
 }

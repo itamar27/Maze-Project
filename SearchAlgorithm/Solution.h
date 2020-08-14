@@ -18,6 +18,8 @@ class Solution
 public:
     Solution(){};
     ~Solution(){};
+public:
+void insertState(State<T>& t){_solution.push_back(t);}
 
 private:
     std::vector<State<T>> _solution;

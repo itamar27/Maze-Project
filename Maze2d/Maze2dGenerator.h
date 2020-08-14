@@ -77,5 +77,4 @@ public:
 
 public:
 	Maze2d generate(const std::string& name, int length = 0, int width = 0);
-
 };
