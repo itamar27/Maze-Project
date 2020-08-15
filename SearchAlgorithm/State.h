@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <memory>
 
 #include "../Maze2d/Position.h"
 
@@ -16,43 +15,53 @@ template <class T>
 class State
 {
 public:
-    State(T state) : _state(state), _cost(0), _camefrom(nullptr) {}
+    State() {}
+    State(T state) : _state(state), _cost(0) {}
+    State(const State<T> &s) : _state(s._state), _cost(s._cost), _camefrom(_camefrom) {}
     virtual ~State() {}
 
+    // A generic implemntation for calculate cost adding 1 to the next state.
+    // if required another implementation override this function
+    //  for this users module you can use the set and get function for _cost date memeber
 public:
-    bool operator==(State &s) { return _state == s._state; }
-    bool operator<(State &s) { return _cost < s._cost; }
+    virtual double calculateCost(State &targetState)
+    {
+        targetState._cost = _cost + 1;
+        return _cost + 1;
+    };
 
 public:
-    double getCost() { return _cost; }
-    State<T>* getFatherNode() { return _camefrom; }
+    double getCost() const { return _cost; }
+    void setCost(double cost)
+    {
+        if (_camefrom->cost <= cost)
+            _cost = cost;
+        else
+            throw "Not a valid cost";
+    }
+
+    void setCameFrom(State<T> &s)
+    {
+        std::cout<<"state sent to set camefrom: "<<s.getState()<<std::endl;
+        _camefrom = new State<T>(s);
+        std::cout<<"New came from value: "<<_camefrom->getState()<<std::endl;
+    }
+
+    State<T>* getCameFrom()
+    {
+        return _camefrom;
+    }
+
+    const T &getState() { return _state; }
+
+public:
+    bool operator==(State<T> &s) const { return _state == s._state; }
+    bool operator<(const State<T> &s) const { return _cost < s._cost; }
+    bool operator>(const State<T> &s) const { return _cost > s._cost; }
 
 protected:
     T _state;
     double _cost;
-    State<T> *_camefrom; //Not a unique_ptr need to remember deleting this object
+    State<T> *_camefrom;
 };
 
-/*
- * --------------------------------------------------------------------
- *       Class: Maze2dState
- *		 Description:This class is a class for claculating the next state for each state on maze board 
- * --------------------------------------------------------------------
- */
-
-template <class T>
-class Maze2dState : public State<T>
-{
-public:
-    Maze2dState(Position state) : State<T>(state) {}
-    ~Maze2dState() {}
-
-public:
-    double calculateCost(State<T> &state)
-    {
-        if (state.getFatherNode() == nullptr)
-            throw "Not a Valid Pointer";
-
-        return state.getFatherNode()->getCost() + 1;
-    } 
-};

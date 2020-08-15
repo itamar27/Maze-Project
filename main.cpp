@@ -1,11 +1,13 @@
-#include "Maze2d/Maze2dGenerator.h"
 #include "SearchAlgorithm/SearchAlgorithm.h"
+#include "Maze2d/Maze2dGenerator.h"
 #include "SearchAlgorithm/Searchable.h"
 #include "SearchAlgorithm/State.h"
 #include "Maze2d/Position.h"
+#include "SearchAlgorithm/BFS.h"
 
 int main()
 {
+    
     /*SimpleMaze2dGenerator genMaze2;
     std::string name2 = "Barak2";
     std::string time2 = genMaze2.measureAlgorithmTime(name2, 30, 30);
@@ -43,5 +45,19 @@ int main()
     // std::cout<<"entrance: " << maze.getStartPosition()<<std::endl;
 
     // std::cout<< maze<<std::endl;
+
+
+    MyMaze2dGenerator mg;
+    Maze2d m2d = mg.generate("Barak", 15, 17);
+    //std::cout<<"Maze created"<<std::endl;
+    std::cout<<m2d;
+    std::cout<<"Start state: "<<m2d.getStartPosition()<<std::endl;
+    std::cout<<"Goal state: " <<m2d.getGoalPosition()<<std::endl;
+    MazeSearchable ms(m2d);
+    //std::cout<<"Maze searchable created"<<std::endl;
+
+    BFS<Position> bfs;
+    bfs.solve(&ms);
+    std::cout<<"reached to end main"<<std::endl;
     
 }

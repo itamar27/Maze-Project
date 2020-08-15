@@ -1,6 +1,7 @@
 #pragma once
 #include <queue>
 #include <vector>
+#include <set>
 
 
 
@@ -48,7 +49,7 @@ public:
 	virtual int getNumOfEvaluatedNodes() { return _evaluatedNodes; };
 
 public:
-	const State<T> &popList()
+	const State<T> popList()
 	{
 		_evaluatedNodes++;
 		State<T> tmp = _openList.top();
@@ -58,25 +59,9 @@ public:
 
 protected:
 	int _evaluatedNodes;
-	std::priority_queue<State<T>> _openList;
+	std::priority_queue<State<T>, std::vector<State<T>>, std::greater<State<T>>> _openList;
 };
 
-/*
- * --------------------------------------------------------------------
- *       Class: BFS
- *		 Description: This class implements a generic BFS algorithm for any kind of searcherable class
- * --------------------------------------------------------------------
- */
-template <class T>
-class BFS : public CommonSearcher<T>
-{
-public:
-	BFS() : CommonSearcher<T>() {}
-	virtual ~BFS(){};
-
-public:
-	virtual Solution<T> solve(Searchable<T> *s);
-};
 
 /*
  * --------------------------------------------------------------------

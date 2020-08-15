@@ -3,7 +3,6 @@
 
 #include "State.h"
 
-
 /*
  * --------------------------------------------------------------------
  *       Class: Solution
@@ -12,14 +11,15 @@
  * --------------------------------------------------------------------
  */
 
-template<class T>
+template <class T>
 class Solution
 {
 public:
     Solution(){};
     ~Solution(){};
+
 public:
-void insertState(State<T>& t){_solution.push_back(t);}
+    void insertState(State<T> &t) { _solution.insert(_solution.begin(), t); }
 
 private:
     std::vector<State<T>> _solution;

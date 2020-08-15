@@ -121,13 +121,13 @@ std::string* Maze2d::getPossibleMoves(const Position& p) const
 		moves[0] = "up";
 
 	if ((x+1) <= (_data.size()-1) && _data[x+1][y] == 0)
-		moves[0] = "down";
+		moves[1] = "down";
 
 	if ((y-1) >= 0 && _data[x][y-1] == 0)
-		moves[0] = "left";
+		moves[2] = "left";
 
 	if ((y+1) <= (_data[_data.size()-1].size() -1) && _data[x][y+1] == 0)
-		moves[0] = "right";
+		moves[3] = "right";
 
 	return moves;
 }

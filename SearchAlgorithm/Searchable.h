@@ -8,11 +8,11 @@
  * --------------------------------------------------------------------
  */
 
-template<class T>
+template <class T>
 class Searchable
 {
 public:
-    virtual State<T>& getStartState() = 0;
-    virtual State<T>& getGoalState() = 0;
-    virtual std::vector<State<T>> getAllPossibleStates(State<T>& s) = 0;
+    virtual const State<T> getStartState() const = 0;
+    virtual const State<T> getGoalState() const = 0;
+    virtual std::vector<State<T>> getAllPossibleStates(State<T> &s) = 0;
 };

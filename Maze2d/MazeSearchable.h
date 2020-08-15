@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 
+#include "Position.h"
 #include "Maze2d.h"
+#include "Maze2dState.h"
 #include "../SearchAlgorithm/Searchable.h"
 
 /*
@@ -11,17 +13,41 @@
  * --------------------------------------------------------------------
  */
 
-template <class T>
-class MazeSearchable : public Searchable<T>
+class MazeSearchable : public Searchable<Position>
 {
 public:
     MazeSearchable(Maze2d &m2d) : _m2d(m2d) {}
     ~MazeSearchable() {}
 
 public:
-    virtual State<T> &getStartState() const { return _m2d.getStartPosition(); }
-    virtual State<T> &getGoalState() const { return _m2d.getGoalPosition(); }
-    virtual std::vector<State<T>> &getAllPossibleStates(State<T> &s) const { return s; };
+    virtual const State<Position> getStartState() const { return _m2d.getStartPosition(); }
+    virtual const State<Position> getGoalState() const { return _m2d.getGoalPosition(); }
+    virtual std::vector<State<Position>> getAllPossibleStates(State<Position> &s)
+    {
+        Position tmp = s.getState();
+        int x = tmp.getX();
+        int y = tmp.getY();
+        std::string *moves = _m2d.getPossibleMoves(tmp);
+        std::vector<State<Position>> allMoves;
 
-    private : Maze2d _m2d;
+        for (int i = 0; i < 4; i++)
+        {
+
+            if (moves[i] == "")
+                continue;
+            if (moves[i] == "up")
+                allMoves.push_back(Position(x - 1, y));
+           else if (moves[i] == "down")
+                allMoves.push_back(Position(x + 1, y));
+            else if (moves[i] == "left")
+                allMoves.push_back(Position(x, y - 1));
+            else if (moves[i] == "right")
+                allMoves.push_back(Position(x, y + 1));
+        }
+
+        return allMoves;
+    };
+
+private:
+    Maze2d _m2d;
 };
