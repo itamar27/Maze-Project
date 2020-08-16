@@ -1,13 +1,12 @@
 #include "Maze2d.h"
 
-
 /*
  * --------------------------------------------------------------------
  *       Method:  Maze2d full class constructor
  * --------------------------------------------------------------------
  */
 Maze2d::Maze2d(std::string name, Position entrance,
-	Position exit, Position player, std::vector<std::vector<int>> data)
+			   Position exit, Position player, std::vector<std::vector<int>> data)
 	: _name(name), _entrance(entrance), _exit(exit), _player(player), _data(data) {}
 
 /*
@@ -16,7 +15,7 @@ Maze2d::Maze2d(std::string name, Position entrance,
  * --------------------------------------------------------------------
  */
 
-Maze2d::Maze2d(const Maze2d& m2d)
+Maze2d::Maze2d(const Maze2d &m2d)
 {
 	*this = m2d;
 }
@@ -26,7 +25,7 @@ Maze2d::Maze2d(const Maze2d& m2d)
  *       Method:  Maze2d = operator
  * --------------------------------------------------------------------
  */
-Maze2d& Maze2d::operator=(const Maze2d& m2d)
+Maze2d &Maze2d::operator=(const Maze2d &m2d)
 {
 	if (!m2d._name.empty())
 		_name = m2d._name;
@@ -42,6 +41,7 @@ Maze2d& Maze2d::operator=(const Maze2d& m2d)
 
 	if (!m2d._data.empty())
 		_data = m2d._data;
+		
 	return *this;
 }
 
@@ -51,25 +51,26 @@ Maze2d& Maze2d::operator=(const Maze2d& m2d)
  * --------------------------------------------------------------------
  */
 
-std::ostream& operator<<(std::ostream& out, const Maze2d& m2d)
+std::ostream &operator<<(std::ostream &out, const Maze2d &m2d)
 {
 	std::string str;
 
-	for (int i= 0; i < m2d._data.size(); i++)
+	for (int i = 0; i < m2d._data.size(); i++)
 	{
-		for (int j = 0; j< m2d._data[i].size(); j++)
+		for (int j = 0; j < m2d._data[i].size(); j++)
 		{
-			if(m2d._data[i][j] == 1 || m2d._data[i][j] == 2)
-				str += "# ";
-			
-			else 
+			if (m2d._data[i][j] == 1) //|| m2d._data[i][j] == 2)
+				str += "||";
+
+			else
 				str += "  ";
 		}
 		str += "\n";
 	}
-	return 	out << '[' << m2d._name << "]\n"<< std::endl<< str <<std::endl;
+	return out << '[' << m2d._name << "]\n"
+			   << std::endl
+			   << str << std::endl;
 }
-
 
 /*
  * --------------------------------------------------------------------
@@ -77,7 +78,8 @@ std::ostream& operator<<(std::ostream& out, const Maze2d& m2d)
  * --------------------------------------------------------------------
  */
 
-Position Maze2d::getStartPosition() const {
+Position Maze2d::getStartPosition() const
+{
 	return _entrance;
 }
 
@@ -98,36 +100,35 @@ Position Maze2d::getGoalPosition() const
  * --------------------------------------------------------------------
  */
 
-std::string* Maze2d::getPossibleMoves(const Position& p) const
+std::string *Maze2d::getPossibleMoves(const Position &p) const
 {
 	//return value moves for each possible move
-	std::string* moves =new std::string[4];
-	
-	//intializing everystring on move
-	for(int i=0; i<4; i++)
-		moves[i] = "";
+	std::string *moves = new std::string[4];
 
+	//intializing everystring on move
+	for (int i = 0; i < 4; i++)
+		moves[i] = "";
 
 	int x = p.getX();
 	int y = p.getY();
 
-	if (x < 0 || y < 0 || x > _data.size() - 1 || y >(_data[_data.size()-1].size()-1))
+	if (x < 0 || y < 0 || x > _data.size() - 1 || y > (_data[_data.size() - 1].size() - 1))
 		throw "Not a valid Position";
 
 	if (_data[x][y] == 1)
 		throw "This position is a wall";
 
-	if ((x-1) >= 0 && _data[x-1][y] == 0)
+	if ((x - 1) >= 0 && _data[x - 1][y] == 0)
 		moves[0] = "up";
 
-	if ((x+1) <= (_data.size()-1) && _data[x+1][y] == 0)
-		moves[0] = "down";
+	if ((x + 1) <= (_data.size() - 1) && _data[x + 1][y] == 0)
+		moves[1] = "down";
 
-	if ((y-1) >= 0 && _data[x][y-1] == 0)
-		moves[0] = "left";
+	if ((y - 1) >= 0 && _data[x][y - 1] == 0)
+		moves[2] = "left";
 
-	if ((y+1) <= (_data[_data.size()-1].size() -1) && _data[x][y+1] == 0)
-		moves[0] = "right";
+	if ((y + 1) <= (_data[_data.size() - 1].size() - 1) && _data[x][y + 1] == 0)
+		moves[3] = "right";
 
 	return moves;
 }
@@ -149,18 +150,16 @@ std::string Maze2d::getMazeName() const
  * --------------------------------------------------------------------
  */
 
-int** Maze2d::getData() const
+int **Maze2d::getData() const
 {
-	int** tmp = new int*[_data.size()];
+	int **tmp = new int *[_data.size()];
 
-	for (int i= 0; i < _data.size(); i++)
+	for (int i = 0; i < _data.size(); i++)
 	{
 		tmp[i] = new int[_data[i].size()];
 	}
 
-
-
-	for (int i= 0; i < _data.size(); i++)
+	for (int i = 0; i < _data.size(); i++)
 	{
 		for (int j = 0; j < _data[i].size(); j++)
 		{
@@ -169,6 +168,4 @@ int** Maze2d::getData() const
 	}
 
 	return tmp; // these 2d array is deleted in the compression class function
-
-
 }

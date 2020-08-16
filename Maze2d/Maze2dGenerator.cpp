@@ -30,21 +30,23 @@ std::string Maze2dGeneratorAbstract::measureAlgorithmTime(std::string name,
  */
 Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int width)
 {
-
+    std::default_random_engine dre(std::chrono::steady_clock::now().time_since_epoch().count()); // provide seed
+    std::uniform_int_distribution<int> dist(15, 500);
     // Minimum size of maze is 15x15, check for size and randomly generate new size
-    srand(time(NULL));
     if (length < 15 || length > 1000)
-        length = (rand() % 1001) + 15;
+        length = dist(dre);
 
     if (width < 15 || width > 1000)
-        width = (rand() % 1001) + 15;
+        width = dist(dre);
 
+    std::cout<<"building a maze"<<std::endl;
     // Creating a new maze2d with walls (=1)
 
     std::vector<std::vector<int>> tmp2d(length, std::vector<int>(width, 1));
 
     // Start will get random value, 0 for left to right, 1 for top to bottom
-    int start = rand() % 2;
+    std::uniform_int_distribution<int> startPoint(0, 1);
+    int start = startPoint(dre);
 
     Position entrance;
     Position exit;
@@ -52,25 +54,34 @@ Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int 
     // Depends on start, initializing random number of passaged and their indexes
     if (start == 0)
     {
-        int randomIdx = (rand() % (length - 2)) + 1;
-        tmp2d[randomIdx][0] = 0;
-        entrance.setX(randomIdx);
+
+        std::default_random_engine dre(std::chrono::steady_clock::now().time_since_epoch().count()); // provide seed
+        std::uniform_int_distribution<int> dist(1, length - 2);
+        int rng = dist(dre);
+
+        tmp2d[rng][0] = 0;
+        entrance.setX(rng);
         entrance.setY(0);
-        int lastPassage = randomIdx;
+        int lastPassage = rng;
 
         for (int i = 1; i < width - 1; ++i)
         {
             tmp2d[lastPassage][i] = 0;
-            int numOfPassages = rand() % (length - 2);
+            std::default_random_engine dre(std::chrono::steady_clock::now().time_since_epoch().count()); // provide seed
+            std::uniform_int_distribution<int> dist(1, length - 2);
+            int numOfPassages = dist(dre);
 
             while (numOfPassages-- > 0)
             {
-                randomIdx = (rand() % (length - 2)) + 1;
-                if (randomIdx - 1 == lastPassage || randomIdx + 1 == lastPassage)
+                rng = dist(dre);
+                if ((rng - 1 == lastPassage || rng + 1 == lastPassage))
                 {
-                    tmp2d[randomIdx][i] = 0;
-                    lastPassage = randomIdx;
+                    tmp2d[rng][i] = 0;
+                    lastPassage = rng;
                 }
+
+                else
+                    tmp2d[rng][i] = 0;
             }
         }
         tmp2d[lastPassage][width - 1] = 0;
@@ -81,7 +92,10 @@ Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int 
     // Depends on start, initializing random number of passages and their indexes
     if (start == 1)
     {
-        int randomIdx = (rand() % (width - 2)) + 1;
+        std::default_random_engine dre(std::chrono::steady_clock::now().time_since_epoch().count()); // provide seed
+        std::uniform_int_distribution<int> dist(1, width - 2);
+        int randomIdx = dist(dre);
+
         tmp2d[0][randomIdx] = 0;
         entrance.setX(0);
         entrance.setY(randomIdx);
@@ -90,16 +104,21 @@ Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int 
         for (int i = 1; i < length - 1; ++i)
         {
             tmp2d[i][lastPassage] = 0;
-            int numOfPassages = rand() % (width - 2);
+            std::default_random_engine dre(std::chrono::steady_clock::now().time_since_epoch().count()); // provide seed
+            std::uniform_int_distribution<int> dist(1, length - 2);
+            int numOfPassages = dist(dre);
 
             while (numOfPassages-- > 0)
             {
-                randomIdx = (rand() % (width - 2)) + 1;
+                randomIdx = dist(dre);
                 if (randomIdx - 1 == lastPassage || randomIdx + 1 == lastPassage)
                 {
                     tmp2d[i][randomIdx] = 0;
                     lastPassage = randomIdx;
                 }
+
+                else
+                    tmp2d[i][randomIdx] = 0;
             }
         }
         tmp2d[length - 1][lastPassage] = 0;
@@ -116,17 +135,19 @@ Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int 
 Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int width)
 {
     std::stack<Position> path;
-    Position entrance, exit, tmp;
+    Position entrance, exit, nearExit;
+
     std::random_device rd;
     std::mt19937 mt(rd());
 
-    // Minimum size of maze is 15x15, check for size and randomly generate new size
-    srand(time(NULL));
-    if (length < 15 || length > 1000)
-        length = (rand() % 1001) + 15;
+    std::default_random_engine dre(std::chrono::steady_clock::now().time_since_epoch().count()); // provide seed
+    std::uniform_int_distribution<int> dist(15, 150);
 
-    if (width < 15 || width > 1000)
-        width = (rand() % 1001) + 15;
+    // Minimum size of maze is 15x15, check for size and randomly generate new size
+    if (length < 15 || length > 150)
+        length = dist(dre);
+    if (width < 15 || width > 150)
+        width = dist(dre);
 
     // Intiazliing maze with walls (=1) and neurtal values (=2)
     std::vector<std::vector<int>> tmp2d(length, std::vector<int>(width, 1));
@@ -141,9 +162,11 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
     }
 
     //Intializing entrance position by a random choice between 4 walls and the opposite direction for for exit
+    std::default_random_engine dre2(std::chrono::steady_clock::now().time_since_epoch().count()); // provide seed
+    std::uniform_int_distribution<int> dist2(0, 1);
+    int left = dist2(dre2);
+    int top = dist2(dre2);
     srand(time(NULL));
-    int left = (rand() % 2);
-    int top = rand() % 2;
     if (left && top)
     {
         entrance.setX((rand() % (length - 2)) + 1);
@@ -152,8 +175,8 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
         exit.setY(0);
         exit.setX((rand() % (length - 2)) + 1);
 
-        tmp.setY(1);
-        tmp.setX(exit.getX());
+        nearExit.setY(1);
+        nearExit.setX(exit.getX());
     }
 
     else if (!left && top)
@@ -164,8 +187,8 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
         exit.setY(width - 1);
         exit.setX((rand() % (length - 2)) + 1);
 
-        tmp.setY(width - 2);
-        tmp.setX(exit.getX());
+        nearExit.setY(width - 2);
+        nearExit.setX(exit.getX());
     }
 
     else if (left && !top)
@@ -176,8 +199,8 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
         entrance.setX(length - 1);
         entrance.setY((rand() % (width - 2)) + 1);
 
-        tmp.setY(exit.getY());
-        tmp.setX(1);
+        nearExit.setY(exit.getY());
+        nearExit.setX(1);
     }
 
     else if (!left && !top)
@@ -188,8 +211,8 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
         entrance.setX(0);
         entrance.setY((rand() % (width - 2)) + 1);
 
-        tmp.setY(exit.getY());
-        tmp.setX(length - 2);
+        nearExit.setY(exit.getY());
+        nearExit.setX(length - 2);
     }
 
     tmp2d[exit.getX()][exit.getY()] = 0;
@@ -200,8 +223,10 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
     // while stack is not empty create new path in maze
     while (!path.empty())
     {
-        srand(time(NULL));
+
+        std::mt19937 mt(rd());
         std::vector<Position> v;
+
         Position cur = path.top();
         path.pop();
         int x = cur.getX();
@@ -259,16 +284,41 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
         // push randomly into the stack from the neighbours vector
         while (!v.empty())
         {
-            std::uniform_int_distribution<int> dist(0, v.size());
-            int rng = dist(mt);
+
+            std::uniform_int_distribution<int> dist3(0, v.size()-1);
+            int rng = dist3(mt);
             if (rng == v.size())
                 --rng;
             path.push(v.at(rng));
             v.erase(v.begin() + rng);
         }
     }
+
     //Making sure there is an open path to the exit
-    tmp2d[tmp.getX()][tmp.getY()] = 0;
+    Position tmpLast = exit;
+    while (tmp2d[nearExit.getX()][nearExit.getY()] != 0)
+    {
+        if (tmp2d[nearExit.getX()][nearExit.getY()] == 1)
+            tmp2d[nearExit.getX()][nearExit.getY()] = 0;
+
+        else if (tmp2d[nearExit.getX()][nearExit.getY()] == 2)
+        {
+            tmp2d[nearExit.getX()][nearExit.getY()] = 0;
+            int x = nearExit.getX() - tmpLast.getX();
+            int y = nearExit.getY() - tmpLast.getY();
+            tmpLast = nearExit;
+            nearExit.setX(nearExit.getX() + x);
+            nearExit.setY(nearExit.getY() + y);
+        }
+    }
+
+    //cleaning all maze from neutral value(=2)
+    for (int i = 1; i < length - 1; i++)
+        for (int j = 1; j < width - 1; j++)
+        {
+            if (tmp2d[i][j] == 2)
+                tmp2d[i][j] = 1;
+        }
 
     return Maze2d(name, entrance, exit, entrance, tmp2d);
 }
