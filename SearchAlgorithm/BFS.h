@@ -91,8 +91,7 @@ Solution<T> BFS<T>::solve(Searchable<T> *s)
         tmpState = tmpState.getCameFrom();
     }
 
-    sol.insertState(u);
+    sol.insertState(tmpState);
     tmpState = tmpState.getCameFrom();
-    std::cout << "Finished BFS" << std::endl;
     return sol;
 }

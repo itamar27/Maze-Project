@@ -6,6 +6,7 @@
 #include "SearchAlgorithm/BFS.h"
 #include "SearchAlgorithm/Astar.h"
 #include "Maze2d/MazeHeuristics.h"
+#include "Demo/Demo.h"
 
 int main()
 {
@@ -48,29 +49,33 @@ int main()
 
     // std::cout<< maze<<std::endl;
 
-    MyMaze2dGenerator mg;
-    Maze2d m2d = mg.generate("Barak");
-    std::cout << m2d;
-    std::cout << "Start state: " << m2d.getStartPosition() << std::endl;
-    std::cout << "Goal state: " << m2d.getGoalPosition() << std::endl;
-    MazeSearchable ms(m2d);
+    // MyMaze2dGenerator mg;
+    // Maze2d m2d = mg.generate("Barak",20, 20);
+    // std::cout << m2d;
+    // std::cout << "Start state: " << m2d.getStartPosition() << std::endl;
+    // std::cout << "Goal state: " << m2d.getGoalPosition() << std::endl;
+    // MazeSearchable ms(m2d);
 
-    ManahattanDistance h;
-    Astar<Position> aStar(&h);
+    // ManahattanDistance h;
+    // Astar<Position> aStar(&h);
 
-    BFS<Position> bfs;
-    try
-    {
-        bfs.solve(&ms);
-        aStar.solve(&ms);
-    }
-    catch (const char *e)
-    {
-        std::cout << e << std::endl;
-    }
+    
+    // BFS<Position> bfs;
+    // try
+    // {
+    //     bfs.solve(&ms);
+    //     aStar.solve(&ms);
+    // }
+    // catch (const char *e)
+    // {
+    //     std::cout << e << std::endl;
+    // }
 
-    std::cout << "Done solving" << std::endl;
-    std::cout << "A* Number of nodes eval: " << aStar.getNumOfEvaluatedNodes() << std::endl;
+    // std::cout << "Done solving" << std::endl;
+    // std::cout << "A* Number of nodes eval: " << aStar.getNumOfEvaluatedNodes() << std::endl;
 
-    std::cout << "BFS Number of nodes eval: " << bfs.getNumOfEvaluatedNodes() << std::endl;
+    // std::cout << "BFS Number of nodes eval: " << bfs.getNumOfEvaluatedNodes() << std::endl;
+
+    Demo demo;
+    demo.run();    
 }

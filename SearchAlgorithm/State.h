@@ -50,7 +50,7 @@ public:
         return *_camefrom;
     }
 
-    const T &getState() { return _state; }
+    const T &getState() const { return _state; }
 
 public:
     bool operator==(State<T> &s) const { return _state == s._state; }

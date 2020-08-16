@@ -39,6 +39,7 @@ Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int 
     if (width < 15 || width > 1000)
         width = dist(dre);
 
+    std::cout<<"building a maze"<<std::endl;
     // Creating a new maze2d with walls (=1)
 
     std::vector<std::vector<int>> tmp2d(length, std::vector<int>(width, 1));
@@ -165,7 +166,6 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
     std::uniform_int_distribution<int> dist2(0, 1);
     int left = dist2(dre2);
     int top = dist2(dre2);
-    std::cout << "RANDOM 1 / 0    ====> " << left << " " << top << std::endl;
     srand(time(NULL));
     if (left && top)
     {

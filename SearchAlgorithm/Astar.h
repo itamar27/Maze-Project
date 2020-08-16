@@ -93,10 +93,8 @@ public:
             tmpState = tmpState.getCameFrom();
         }
 
-        sol.insertState(u);
+        sol.insertState(tmpState);
         tmpState = tmpState.getCameFrom();
-        std::cout << "Finished Astar" << std::endl;
-
         return sol;
     }
 

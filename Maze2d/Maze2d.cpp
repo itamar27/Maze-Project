@@ -60,11 +60,7 @@ std::ostream &operator<<(std::ostream &out, const Maze2d &m2d)
 		for (int j = 0; j < m2d._data[i].size(); j++)
 		{
 			if (m2d._data[i][j] == 1) //|| m2d._data[i][j] == 2)
-				str += "# ";
-			else if (m2d._data[i][j] == 2)
-			{
-				str += "2 ";
-			}
+				str += "||";
 
 			else
 				str += "  ";
