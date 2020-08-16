@@ -28,7 +28,6 @@ Solution<T> BFS<T>::solve(Searchable<T> *s)
     if (s == nullptr)
         throw "Not a Valid pointer";
 
-    std::cout << "Inside of bfs function" << std::endl;
     State<T> goal = s->getGoalState();
     State<T> start = s->getStartState();
     State<T> u;
@@ -51,38 +50,18 @@ Solution<T> BFS<T>::solve(Searchable<T> *s)
 
         moves = s->getAllPossibleStates(u);
 
-        // if (closedList.size() > 0)
-        // {
-        //     std::cout << std::endl
-        //               << "Closed list: " << std::endl;
-        //     for (auto it = closedList.begin(); it != closedList.end(); it++)
-        //     {
-        //         State<T> tmp;
-        //         tmp = *it;
-        //         std::cout << tmp.getState() << " ";
-        //     }
-        //     std::cout << std::endl;
-        // }
-
         for (int i = 0; i < moves.size(); ++i)
         {
-            // std::cout << "\nFather node is: " << u.getState() << std::endl;
-            // std::cout << "Possible move[" << i << "]: " << moves[i].getState() << std::endl;
 
             auto itClosed = closedList.find(moves[i]);
             auto itOpen = copyOpenList.find(moves[i]);
 
-            // if ((itClosed == closedList.end()))
-            //     std::cout << "Not in closed List " << std::endl;
-            // if ((itOpen == copyOpenList.end()))
-            //     std::cout << "Not in open List " << std::endl;
             if ((itClosed == closedList.end()) && (itOpen == copyOpenList.end()))
             {
                 moves[i].setCameFrom(u);
                 u.calculateCost(moves[i]);
                 this->_openList.push(moves[i]);
                 copyOpenList.insert(moves[i]);
-                //std::cout << "This child goes into 1ST open!" << std::endl;
             }
 
             else if (u.getCost() + 1 < moves[i].getCost())
@@ -96,26 +75,25 @@ Solution<T> BFS<T>::solve(Searchable<T> *s)
                 moves[i].setCameFrom(u);
                 u.calculateCost(moves[i]);
             }
-            // std::cout << "open list size: " << copyOpenList.size() << std::endl;
-            // std::cout << "Closed list size: " << closedList.size() << std::endl;
         }
     }
 
-    // std::cout << "           " << std::endl;
-    // std::cout << u.getState() << std::endl;
-    // std::cout << start.getState() << std::endl;
-    // std::cout << goal.getState() << std::endl;
 
+    if(!(u == goal))
+        throw "Unsolveable";
     Solution<T> sol;
-    State<T>* ptrState;
-    ptrState = &u;
-    while (!(*ptrState == start))
+    State<T> tmpState;
+    tmpState = u;
+
+    std::cout<<"Goal state is: "<<u.getState()<<" Goal state came from: "<<u.getCameFrom().getState()<<std::endl;
+    while (!(tmpState == start))
     {
-        sol.insertState(*ptrState);
-        ptrState = ptrState->getCameFrom();
-        std::cout << "came from: " << ptrState->getState() << std::endl;
+        sol.insertState(tmpState);
+        tmpState = tmpState.getCameFrom();
     }
+
     sol.insertState(u);
-    ptrState = ptrState->getCameFrom();
+    tmpState = tmpState.getCameFrom();
+
     return sol;
 }

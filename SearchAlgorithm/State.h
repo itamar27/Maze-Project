@@ -17,7 +17,7 @@ class State
 public:
     State() {}
     State(T state) : _state(state), _cost(0) {}
-    State(const State<T> &s) : _state(s._state), _cost(s._cost), _camefrom(_camefrom) {}
+    State(const State<T> &s) : _state(s._state), _cost(s._cost), _camefrom(s._camefrom) {}
     virtual ~State() {}
 
     // A generic implemntation for calculate cost adding 1 to the next state.
@@ -40,16 +40,14 @@ public:
             throw "Not a valid cost";
     }
 
-    void setCameFrom(State<T> &s)
+    void setCameFrom(State<T> s)
     {
-        std::cout<<"state sent to set camefrom: "<<s.getState()<<std::endl;
         _camefrom = new State<T>(s);
-        std::cout<<"New came from value: "<<_camefrom->getState()<<std::endl;
     }
 
-    State<T>* getCameFrom()
+    State<T> getCameFrom()
     {
-        return _camefrom;
+        return *_camefrom;
     }
 
     const T &getState() { return _state; }
