@@ -4,8 +4,8 @@
 #include "SearchAlgorithm/State.h"
 #include "Maze2d/Position.h"
 #include "SearchAlgorithm/BFS.h"
-
-#include <unistd.h>
+#include "SearchAlgorithm/Astar.h"
+#include "Maze2d/MazeHeuristics.h"
 
 int main()
 {
@@ -48,27 +48,29 @@ int main()
 
     // std::cout<< maze<<std::endl;
 
-    bool flag = false;
-    while (!flag)
-    {
-        MyMaze2dGenerator mg;
-        Maze2d m2d = mg.generate("Barak", 30, 30);
-        //std::cout<<"Maze created"<<std::endl;
-        std::cout << m2d;
-        std::cout << "Start state: " << m2d.getStartPosition() << std::endl;
-        std::cout << "Goal state: " << m2d.getGoalPosition() << std::endl;
-        MazeSearchable ms(m2d);
+    MyMaze2dGenerator mg;
+    Maze2d m2d = mg.generate("Barak");
+    std::cout << m2d;
+    std::cout << "Start state: " << m2d.getStartPosition() << std::endl;
+    std::cout << "Goal state: " << m2d.getGoalPosition() << std::endl;
+    MazeSearchable ms(m2d);
 
-        try
-        {
-            BFS<Position> bfs;
-            bfs.solve(&ms);
-        }
-        catch (const char *e)
-        {
-            std::cout << e << std::endl;
-            flag = true;
-        }
-        sleep(10);
+    ManahattanDistance h;
+    Astar<Position> aStar(&h);
+
+    BFS<Position> bfs;
+    try
+    {
+        bfs.solve(&ms);
+        aStar.solve(&ms);
     }
+    catch (const char *e)
+    {
+        std::cout << e << std::endl;
+    }
+
+    std::cout << "Done solving" << std::endl;
+    std::cout << "A* Number of nodes eval: " << aStar.getNumOfEvaluatedNodes() << std::endl;
+
+    std::cout << "BFS Number of nodes eval: " << bfs.getNumOfEvaluatedNodes() << std::endl;
 }

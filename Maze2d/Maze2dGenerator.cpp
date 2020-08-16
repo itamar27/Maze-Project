@@ -35,6 +35,7 @@ Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int 
     // Minimum size of maze is 15x15, check for size and randomly generate new size
     if (length < 15 || length > 1000)
         length = dist(dre);
+
     if (width < 15 || width > 1000)
         width = dist(dre);
 
@@ -161,9 +162,11 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
 
     //Intializing entrance position by a random choice between 4 walls and the opposite direction for for exit
     std::default_random_engine dre2(std::chrono::steady_clock::now().time_since_epoch().count()); // provide seed
-    std::uniform_int_distribution<int> dist2(15, 150);
+    std::uniform_int_distribution<int> dist2(0, 1);
     int left = dist2(dre2);
     int top = dist2(dre2);
+    std::cout << "RANDOM 1 / 0    ====> " << left << " " << top << std::endl;
+    srand(time(NULL));
     if (left && top)
     {
         entrance.setX((rand() % (length - 2)) + 1);
@@ -220,10 +223,10 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
     // while stack is not empty create new path in maze
     while (!path.empty())
     {
-        
+
         std::mt19937 mt(rd());
         std::vector<Position> v;
-        
+
         Position cur = path.top();
         path.pop();
         int x = cur.getX();
@@ -281,8 +284,8 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
         // push randomly into the stack from the neighbours vector
         while (!v.empty())
         {
-                
-            std::uniform_int_distribution<int> dist3(0, v.size());
+
+            std::uniform_int_distribution<int> dist3(0, v.size()-1);
             int rng = dist3(mt);
             if (rng == v.size())
                 --rng;

@@ -24,9 +24,9 @@ public:
     // if required another implementation override this function
     //  for this users module you can use the set and get function for _cost date memeber
 public:
-    virtual double calculateCost(State &targetState)
+    virtual double calculateCost(State &targetState, double heuristic = 0)
     {
-        targetState._cost = _cost + 1;
+        targetState._cost = _cost + 1 + heuristic;
         return _cost + 1;
     };
 
@@ -62,4 +62,3 @@ protected:
     double _cost;
     State<T> *_camefrom;
 };
-

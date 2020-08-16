@@ -1,3 +1,5 @@
+#pragma once 
+
 #include "../SearchAlgorithm/State.h"
 #include "Position.h"
 

@@ -20,7 +20,7 @@ public:
     virtual Solution<T> solve(Searchable<T> *s);
 };
 
-//----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------
 template <class T>
 Solution<T> BFS<T>::solve(Searchable<T> *s)
@@ -85,7 +85,6 @@ Solution<T> BFS<T>::solve(Searchable<T> *s)
     State<T> tmpState;
     tmpState = u;
 
-    std::cout<<"Goal state is: "<<u.getState()<<" Goal state came from: "<<u.getCameFrom().getState()<<std::endl;
     while (!(tmpState == start))
     {
         sol.insertState(tmpState);
@@ -94,6 +93,6 @@ Solution<T> BFS<T>::solve(Searchable<T> *s)
 
     sol.insertState(u);
     tmpState = tmpState.getCameFrom();
-
+    std::cout << "Finished BFS" << std::endl;
     return sol;
 }

@@ -3,8 +3,6 @@
 #include <vector>
 #include <set>
 
-
-
 #include "Searchable.h"
 #include "State.h"
 #include "Solution.h"
@@ -21,8 +19,9 @@ template <class T>
 class SearchAlgorithm
 {
 public:
-	SearchAlgorithm(){}
-	~SearchAlgorithm(){}
+	SearchAlgorithm() {}
+	~SearchAlgorithm() {}
+
 public:
 	virtual Solution<T> solve(Searchable<T> *s) = 0;
 	virtual int getNumOfEvaluatedNodes() = 0;
@@ -46,6 +45,7 @@ public:
 
 public:
 	virtual Solution<T> solve(Searchable<T> *s) = 0;
+	
 	virtual int getNumOfEvaluatedNodes() { return _evaluatedNodes; };
 
 public:
@@ -60,17 +60,4 @@ public:
 protected:
 	int _evaluatedNodes;
 	std::priority_queue<State<T>, std::vector<State<T>>, std::greater<State<T>>> _openList;
-};
-
-
-/*
- * --------------------------------------------------------------------
- *       Class: A*
- *		 Description: This class implements a generic A* algorithm for any kind of searcherable class
- * --------------------------------------------------------------------
- */
-template <class T>
-class Astar : public CommonSearcher<T>
-{
-public:
 };
