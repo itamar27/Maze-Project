@@ -23,7 +23,7 @@ public:
 
 public:
 	Position getStartPosition() const;
-	Position getGoalPosition() const;
+	Position getGoalPosition() const ;
 	std::string* getPossibleMoves(const Position& p) const;
 	std::string getMazeName() const;
 	int** getData() const;

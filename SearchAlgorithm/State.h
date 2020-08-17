@@ -1,8 +1,7 @@
+#pragma once
 #include <string>
-#include <memory>
 
-#include "./Position.h"
-
+#include "../Maze2d/Position.h"
 
 /*
  * --------------------------------------------------------------------
@@ -12,19 +11,54 @@
  * --------------------------------------------------------------------
  */
 
-
 template <class T>
 class State
 {
 public:
-    State(T state) : _state(state), _cost(0), _camefrom(nullptr){};
-    ~State(){};
+    State() {}
+    State(T state) : _state(state), _cost(0) {}
+    State(const State<T> &s) : _state(s._state), _cost(s._cost), _camefrom(s._camefrom) {}
+    virtual ~State() {}
+
+    // A generic implemntation for calculate cost adding 1 to the next state.
+    // if required another implementation override this function
+    //  for this users module you can use the set and get function for _cost date memeber
+public:
+    virtual double calculateCost(State &targetState, double heuristic = 0)
+    {
+        targetState._cost = _cost + 1 + heuristic;
+        return _cost + 1;
+    };
 
 public:
-    bool operator==(State &s) { return _state == s._state; }
+    double getCost() const { return _cost; }
+    void setCost(double cost)
+    {
+        if (_camefrom->cost <= cost)
+            _cost = cost;
+        else
+            throw "Not a valid cost";
+    }
 
-private:
+    void setCameFrom(State<T> s)
+    {
+        _camefrom = new State<T>(s);
+    }
+
+    State<T> getCameFrom()
+    {
+        return *_camefrom;
+    }
+
+    const T &getState() const { return _state; }
+
+public:
+    bool operator==(State<T> &s) const { return _state == s._state; }
+    bool operator<(const State<T> &s) const { return _cost < s._cost; }
+    bool operator>(const State<T> &s) const { return _cost > s._cost; }
+
+protected:
     T _state;
     double _cost;
-    std::unique_ptr<State> _camefrom
+    State<T> *_camefrom;
 };

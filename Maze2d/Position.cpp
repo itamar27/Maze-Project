@@ -52,3 +52,18 @@ bool Position::operator==(const Position &p) const
 {
 	return ((_x == p._x) && (_y == p._y));
 }
+
+bool Position::operator<(const Position &p) const
+{
+	bool t = false;
+
+	if (_y == p._y)
+	{
+		if (_x < p._x)
+			t = true;
+	}
+	else if (_y < p._y)
+		t = true;
+
+	return t;
+}
