@@ -14,28 +14,33 @@ void Demo::run()
     AriealDistance h2;
     Astar<Position> aArieal(&h2);
 
-    Solution<Position> solA;
+
+    Solution<Position> solAmanhattan;
+    Solution<Position> solAarieal;
+
     Solution<Position> solBFS;
 
     BFS<Position> bfs;
     try
     {
-        solA = bfs.solve(&ms);
+
+        solAmanhattan = bfs.solve(&ms);
 
         solBFS = aManhattan.solve(&ms);
-        //aArieal.solve(&ms);
+        solAarieal = aArieal.solve(&ms);
+
     }
     catch (const char *e)
     {
         std::cout << e << std::endl;
-    }
 
-    //std::cout << "A* with areial distance Number of nodes eval: " << aArieal.getNumOfEvaluatedNodes() << std::endl;
+    } 
 
-    std::cout << "A* with manhattan Number of nodes eval: " << aManhattan.getNumOfEvaluatedNodes() << "\n";
-    std::cout << "Path size to Solution: " << solA.getSolutionSize() << "\n"
-              << solA << std::endl;
-    std::cout << "\nBFS Number of nodes eval: " << bfs.getNumOfEvaluatedNodes() << "\n";
-    std::cout << "Path size to Solution: " << solBFS.getSolutionSize() << "\n"
-              << solBFS << std::endl;
+    std::cout << "BFS solution evaluated " << bfs.getNumOfEvaluatedNodes() << " states, built a solution path of " << solBFS.getSolutionSize() << ", and it is:" << std::endl;
+    std::cout << solBFS << std::endl;
+    std::cout << "\nAstar with manhattan solution evaluated " << aManhattan.getNumOfEvaluatedNodes() << " states, built a solution path of " << solBFS.getSolutionSize() << ", and it is:" << std::endl;
+    std::cout << solAmanhattan << std::endl;
+    std::cout << "\nAstar with Arieal Distance solution evaluated " << aArieal.getNumOfEvaluatedNodes() << " states, built a solution path of " << solBFS.getSolutionSize() << ", and it is:" << std::endl;
+    std::cout << solAarieal << std::endl;
+
 }

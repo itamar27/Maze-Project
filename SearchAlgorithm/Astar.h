@@ -33,12 +33,13 @@ public:
         State<T> goal = s->getGoalState();
         State<T> start = s->getStartState();
         State<T> u;
-        std::vector<State<T>> moves;
+
+        std::vector<State<T>> moves;                        // Will use to get all the next possible states of the problem
         this->_openList.push(start);
 
-        auto cmp = [](State<T> a, State<T> b) { return a.getState() < b.getState(); };
-        std::set<State<T>, decltype(cmp)> closedList(cmp);
-        std::set<State<T>, decltype(cmp)> copyOpenList(cmp); // Hash set to hold states and ask if they're in its (represents this->_openList)
+        auto cmp = [](State<T> a, State<T> b) { return a.getState() < b.getState(); }; // lambda function to compare states
+        std::set<State<T>, decltype(cmp)> closedList(cmp);   // set to hold states and ask if they're in it (for evaluated states)
+        std::set<State<T>, decltype(cmp)> copyOpenList(cmp); // set to hold states and ask if they're in it (represents this->_openList)
 
         copyOpenList.insert(s->getStartState());
 
@@ -47,6 +48,7 @@ public:
             u = this->popList();
             copyOpenList.erase(copyOpenList.find(u));
             closedList.insert(u);
+
             if (u == goal)
                 break; // build solution outside of loop
 
@@ -60,6 +62,7 @@ public:
 
                 if ((itClosed == closedList.end()) && (itOpen == copyOpenList.end()))
                 {
+
                     moves[i].setCameFrom(u);
                     u.calculateCost(moves[i], _h->calc(moves[i], goal));
                     this->_openList.push(moves[i]);
@@ -75,19 +78,23 @@ public:
                     }
 
                     moves[i].setCameFrom(u);
-                    u.calculateCost(moves[i]);
+
+                    u.calculateCost(moves[i], _h->calc(moves[i], goal));
+
                 }
             }
         }
 
-        if (!(u == goal))
+
+        if (!(u == goal))   // Checks if the problem got a solution at al
             throw "Unsolveable";
 
         Solution<T> sol;
         State<T> tmpState;
         tmpState = u;
 
-        while (!(tmpState == start))
+
+        while (!(tmpState == start))        // Building Solution by backtracking the parents states
         {
             sol.insertState(tmpState);
             tmpState = tmpState.getCameFrom();

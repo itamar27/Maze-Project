@@ -13,8 +13,10 @@ class ManahattanDistance : public Heuristic<Position>
 public:
     virtual double calc(State<Position> &state, State<Position> &goal)
     {
-        double row = abs(state.getState().getX() - goal.getState().getX());
-        double col = abs(state.getState().getY() - goal.getState().getY());
+
+        double row = fabs(state.getState().getX() - goal.getState().getX());
+        double col = fabs(state.getState().getY() - goal.getState().getY());
+
         return (row + col);
     }
 };
@@ -24,10 +26,12 @@ class AriealDistance : public Heuristic<Position>
 public:
     virtual double calc(State<Position> &state, State<Position> &goal)
     {
-        double gValue = state.getCost() - state.getCameFrom().getCost();
-        double row = abs(state.getState().getX() - goal.getState().getX());
-        double col = abs(state.getState().getY() - goal.getState().getY());
-        double root = (pow(row, 2) + pow(col, 2));
+
+        double gValue = fabs(state.getCost() - state.getCameFrom().getCost());
+        double row = fabs(state.getState().getX() - goal.getState().getX());
+        double col = fabs(state.getState().getY() - goal.getState().getY());
+        double root = sqrt((row*row) + (col*col));
+
 
         return root * gValue;
     }
