@@ -46,19 +46,15 @@ int main()
     // }
 
     // std::cout<<"entrance: " << maze.getStartPosition()<<std::endl;
-
     // std::cout<< maze<<std::endl;
-
     // MyMaze2dGenerator mg;
     // Maze2d m2d = mg.generate("Barak",20, 20);
     // std::cout << m2d;
     // std::cout << "Start state: " << m2d.getStartPosition() << std::endl;
     // std::cout << "Goal state: " << m2d.getGoalPosition() << std::endl;
     // MazeSearchable ms(m2d);
-
     // ManahattanDistance h;
     // Astar<Position> aStar(&h);
-
     // BFS<Position> bfs;
     // try
     // {
@@ -94,4 +90,8 @@ int main()
     // std::cout << "States evaluated: " << astarSolver.getNumOfEvaluatedNodes() << std::endl;
     // std::cout << sol << std::endl;
     // }
+
+
+    
+   
 }

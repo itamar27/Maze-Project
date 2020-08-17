@@ -33,6 +33,7 @@ public:
         State<T> goal = s->getGoalState();
         State<T> start = s->getStartState();
         State<T> u;
+
         std::vector<State<T>> moves;                        // Will use to get all the next possible states of the problem
         this->_openList.push(start);
 
@@ -55,6 +56,7 @@ public:
 
             for (int i = 0; i < moves.size(); ++i)
             {
+
                 auto itClosed = closedList.find(moves[i]);
                 auto itOpen = copyOpenList.find(moves[i]);
 
@@ -76,10 +78,13 @@ public:
                     }
 
                     moves[i].setCameFrom(u);
+
                     u.calculateCost(moves[i], _h->calc(moves[i], goal));
+
                 }
             }
         }
+
 
         if (!(u == goal))   // Checks if the problem got a solution at al
             throw "Unsolveable";
@@ -87,6 +92,7 @@ public:
         Solution<T> sol;
         State<T> tmpState;
         tmpState = u;
+
 
         while (!(tmpState == start))        // Building Solution by backtracking the parents states
         {

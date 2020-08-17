@@ -14,21 +14,26 @@ void Demo::run()
     AriealDistance h2;
     Astar<Position> aArieal(&h2);
 
+
     Solution<Position> solAmanhattan;
     Solution<Position> solAarieal;
+
     Solution<Position> solBFS;
 
     BFS<Position> bfs;
     try
     {
+
         solAmanhattan = bfs.solve(&ms);
 
         solBFS = aManhattan.solve(&ms);
         solAarieal = aArieal.solve(&ms);
+
     }
     catch (const char *e)
     {
         std::cout << e << std::endl;
+
     } 
 
     std::cout << "BFS solution evaluated " << bfs.getNumOfEvaluatedNodes() << " states, built a solution path of " << solBFS.getSolutionSize() << ", and it is:" << std::endl;
@@ -37,4 +42,5 @@ void Demo::run()
     std::cout << solAmanhattan << std::endl;
     std::cout << "\nAstar with Arieal Distance solution evaluated " << aArieal.getNumOfEvaluatedNodes() << " states, built a solution path of " << solBFS.getSolutionSize() << ", and it is:" << std::endl;
     std::cout << solAarieal << std::endl;
+
 }
