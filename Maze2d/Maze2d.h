@@ -5,7 +5,6 @@
 
 #include "Position.h"
 
-
 /*
  * --------------------------------------------------------------------
  *       Class:  Maze2d
@@ -16,26 +15,24 @@
 class Maze2d
 {
 public:
-	Maze2d(std::string name, Position entrance, Position exit, Position player, std::vector<std::vector<int>> data);
-	Maze2d(const Maze2d& m2d);
-	Maze2d(const int ** data);
+	Maze2d(std::string name, Position entrance, Position exit, std::vector<std::vector<int>> data);
+	Maze2d(const Maze2d &m2d);
 	~Maze2d(){};
 
 public:
 	Position getStartPosition() const;
-	Position getGoalPosition() const ;
-	std::string* getPossibleMoves(const Position& p) const;
+	Position getGoalPosition() const;
+	std::string *getPossibleMoves(const Position &p) const;
 	std::string getMazeName() const;
-	int** getData() const;
+	std::vector<std::vector<int>> getData() const;
 
 public:
-	friend std::ostream& operator<<(std::ostream& out, const Maze2d& m2d);
-	Maze2d& operator =(const Maze2d& m2d);
+	friend std::ostream &operator<<(std::ostream &out, const Maze2d &m2d);
+	Maze2d &operator=(const Maze2d &m2d);
 
 private:
 	std::string _name;
 	Position _entrance;
 	Position _exit;
-	Position _player;
 	std::vector<std::vector<int>> _data;
 };

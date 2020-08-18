@@ -6,8 +6,8 @@
  * --------------------------------------------------------------------
  */
 Maze2d::Maze2d(std::string name, Position entrance,
-			   Position exit, Position player, std::vector<std::vector<int>> data)
-	: _name(name), _entrance(entrance), _exit(exit), _player(player), _data(data) {}
+			   Position exit, std::vector<std::vector<int>> data)
+	: _name(name), _entrance(entrance), _exit(exit), _data(data) {}
 
 /*
  * --------------------------------------------------------------------
@@ -36,12 +36,9 @@ Maze2d &Maze2d::operator=(const Maze2d &m2d)
 	if (m2d._exit.getX() >= 0 && m2d._exit.getY() >= 0)
 		_exit = m2d._exit;
 
-	if (m2d._player.getX() >= 0 && m2d._player.getY() >= 0)
-		_player = m2d._player;
-
 	if (!m2d._data.empty())
 		_data = m2d._data;
-		
+
 	return *this;
 }
 
@@ -146,26 +143,11 @@ std::string Maze2d::getMazeName() const
 
 /*
  * --------------------------------------------------------------------
- *       Method:  Maze2d getData() return a 2d int array
+ *       Method:  Maze2d getData() return a 2d vector array
  * --------------------------------------------------------------------
  */
 
-int **Maze2d::getData() const
+std::vector<std::vector<int>> Maze2d::getData() const
 {
-	int **tmp = new int *[_data.size()];
-
-	for (int i = 0; i < _data.size(); i++)
-	{
-		tmp[i] = new int[_data[i].size()];
-	}
-
-	for (int i = 0; i < _data.size(); i++)
-	{
-		for (int j = 0; j < _data[i].size(); j++)
-		{
-			tmp[i][j] = _data[i][j];
-		}
-	}
-
-	return tmp; // these 2d array is deleted in the compression class function
+	return _data;
 }

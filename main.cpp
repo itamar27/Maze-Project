@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "SearchAlgorithm/SearchAlgorithm.h"
 #include "Maze2d/Maze2dGenerator.h"
 #include "SearchAlgorithm/Searchable.h"
@@ -6,12 +8,35 @@
 #include "SearchAlgorithm/BFS.h"
 #include "SearchAlgorithm/Astar.h"
 #include "Maze2d/MazeHeuristics.h"
+#include "Maze2d/MazeCompression.h"
 #include "Demo/Demo.h"
 
 int main()
 {
+    //Demo demo;
+    //demo.run();
 
-    /*SimpleMaze2dGenerator genMaze2;
+    MyMaze2dGenerator my;
+    Maze2d m2d = my.generate("itamar", 15, 15);
+
+    std::cout << m2d << std::endl;
+
+    MazeCompression compression;
+
+    std::ofstream myfile("maze.txt", std::ios::out| std::ios::binary);
+
+    auto it = compression.compress(m2d.getData());
+    compression.write(myfile, m2d);
+
+    std::ifstream myfile2("maze.txt", std::ios::in | std::ios::binary);
+
+    std::cout << compression.read(myfile2) << std::endl;
+
+    myfile2.close();
+    myfile.close();
+}
+
+/*SimpleMaze2dGenerator genMaze2;
     std::string name2 = "Barak2";
     std::string time2 = genMaze2.measureAlgorithmTime(name2, 30, 30);
     Maze2d m2d2 = genMaze2.generate(name2, 30, 30);
@@ -24,74 +49,49 @@ int main()
     std::cout << "Time to create maze: " << time << m2d << "\n";
     */
 
-    // MyMaze2dGenerator myMaze;
-    // std::cout << "Time to run " << myMaze.measureAlgorithmTime("Barak", 40, 40) << std::endl;
+// MyMaze2dGenerator myMaze;
+// std::cout << "Time to run " << myMaze.measureAlgorithmTime("Barak", 40, 40) << std::endl;
 
-    // Maze2d maze = myMaze.generate("Barka", 40, 40);
+// Maze2d maze = myMaze.generate("Barka", 40, 40);
 
-    // Position p = maze.getGoalPosition();
-    // std::cout << "goal: " << p << std::endl;
+// Position p = maze.getGoalPosition();
+// std::cout << "goal: " << p << std::endl;
 
-    // std::string* moves = maze.getPossibleMoves(p);
+// std::string* moves = maze.getPossibleMoves(p);
 
-    // std::cout<<"Possible move is: "<<std::endl;
-    // for(int i = 0; i < 4; i++)
-    // {
-    //     if(moves[i] == "" )
-    //         continue;
-    //     else
-    //     {
-    //         std::cout<< moves[i]<<std::endl;
-    //     }
-    // }
+// std::cout<<"Possible move is: "<<std::endl;
+// for(int i = 0; i < 4; i++)
+// {
+//     if(moves[i] == "" )
+//         continue;
+//     else
+//     {
+//         std::cout<< moves[i]<<std::endl;
+//     }
+// }
 
-    // std::cout<<"entrance: " << maze.getStartPosition()<<std::endl;
-    // std::cout<< maze<<std::endl;
-    // MyMaze2dGenerator mg;
-    // Maze2d m2d = mg.generate("Barak",20, 20);
-    // std::cout << m2d;
-    // std::cout << "Start state: " << m2d.getStartPosition() << std::endl;
-    // std::cout << "Goal state: " << m2d.getGoalPosition() << std::endl;
-    // MazeSearchable ms(m2d);
-    // ManahattanDistance h;
-    // Astar<Position> aStar(&h);
-    // BFS<Position> bfs;
-    // try
-    // {
-    //     bfs.solve(&ms);
-    //     aStar.solve(&ms);
-    // }
-    // catch (const char *e)
-    // {
-    //     std::cout << e << std::endl;
-    // }
+// std::cout<<"entrance: " << maze.getStartPosition()<<std::endl;
+// std::cout<< maze<<std::endl;
+// MyMaze2dGenerator mg;
+// Maze2d m2d = mg.generate("Barak",20, 20);
+// std::cout << m2d;
+// std::cout << "Start state: " << m2d.getStartPosition() << std::endl;
+// std::cout << "Goal state: " << m2d.getGoalPosition() << std::endl;
+// MazeSearchable ms(m2d);
+// ManahattanDistance h;
+// Astar<Position> aStar(&h);
+// BFS<Position> bfs;
+// try
+// {
+//     bfs.solve(&ms);
+//     aStar.solve(&ms);
+// }
+// catch (const char *e)
+// {
+//     std::cout << e << std::endl;
+// }
 
-    // std::cout << "Done solving" << std::endl;
-    // std::cout << "A* Number of nodes eval: " << aStar.getNumOfEvaluatedNodes() << std::endl;
+// std::cout << "Done solving" << std::endl;
+// std::cout << "A* Number of nodes eval: " << aStar.getNumOfEvaluatedNodes() << std::endl;
 
-    // std::cout << "BFS Number of nodes eval: " << bfs.getNumOfEvaluatedNodes() << std::endl;
-
-    Demo demo;
-    demo.run();
-
-    // int iterate = 0;
-
-    // while(iterate++ < 20){
-    // MyMaze2dGenerator mg;
-    // Maze2d m2d = mg.generate("MyMaze", 15, 15);
-    // MazeSearchable ms(m2d);
-    // AriealDistance h;
-    // Astar<Position> astarSolver(&h);
-    // Solution<Position> sol;
-
-    // sol = astarSolver.solve(&ms);
-
-    // std::cout << m2d << std::endl;
-    // std::cout << "States evaluated: " << astarSolver.getNumOfEvaluatedNodes() << std::endl;
-    // std::cout << sol << std::endl;
-    // }
-
-
-    
-   
-}
+// std::cout << "BFS Number of nodes eval: " << bfs.getNumOfEvaluatedNodes() << std::endl;
