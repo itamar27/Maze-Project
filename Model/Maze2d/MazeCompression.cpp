@@ -77,7 +77,7 @@ std::vector<std::vector<int>> MazeCompression::decompress(std::vector<int> data,
 }
 
 /*
- * Function to decompress a one 1d vector into a 2d vector
+ * Function to write to a file a compressed maze
  */
 void MazeCompression::write(std::ofstream &out, const Maze2d &m2d)
 {
@@ -102,6 +102,10 @@ void MazeCompression::write(std::ofstream &out, const Maze2d &m2d)
 
     out.write((char *)&vec[0], vec.size() * sizeof(int));
 }
+
+/*
+ * Function to load from a file and decompressed maze
+ */
 
 Maze2d MazeCompression::read(std::ifstream &in)
 {

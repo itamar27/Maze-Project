@@ -5,6 +5,12 @@
 #include "View.h"
 #include "../Controller/Controller.h"
 
+/*
+ * --------------------------------------------------------------------
+ *       Class:  CLI
+ *		 Description: class that is being used to implement the View interface.
+ * --------------------------------------------------------------------
+ */
 
 class CLI : public View
 {
@@ -16,8 +22,9 @@ public:
 
 public:
     virtual void start();
+    virtual std::ostream &getOStream();
 
 private:
-    std::ostream& _out;
-    std::istream& _in;
+    std::ostream &_out;
+    std::istream &_in;
 };

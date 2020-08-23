@@ -32,6 +32,26 @@ public:
 
 public:
     int getSolutionSize() const { return _solution.size(); }
+    
+    void write(std::ostream &out)
+    {
+        int n = _solution.size();
+        out.write((char *)&n, sizeof(n));
+        out.write((char *)&_solution[0], _solution.size() * sizeof(State<T>));
+    }
+
+    void read(std::ifstream &in)
+    {
+        int n = 0;
+        in.read((char *)&n, sizeof(n));
+
+        State<T> tmp;
+        for (int i = 0; i < n; ++i)
+        {
+            in.read((char *)&tmp, sizeof(tmp));
+            _solution.push_back(tmp)
+        }
+    }
 
 private:
     std::vector<State<T>> _solution;
