@@ -61,3 +61,4 @@ protected:
 	int _evaluatedNodes;
 	std::priority_queue<State<T>, std::vector<State<T>>, std::greater<State<T>>> _openList;
 };
+

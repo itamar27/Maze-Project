@@ -18,7 +18,7 @@ public:
     State() {}
     State(T state) : _state(state), _cost(0) {}
     State(const State<T> &s) : _state(s._state), _cost(s._cost), _camefrom(s._camefrom) {}
-    virtual ~State() {delete _camefrom;}
+    virtual ~State() {}
 
     // A generic implemntation for calculate cost adding 1 to the next state.
     // if required another implementation override this function

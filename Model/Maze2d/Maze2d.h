@@ -29,6 +29,7 @@ public:
 public:
 	friend std::ostream &operator<<(std::ostream &out, const Maze2d &m2d);
 	Maze2d &operator=(const Maze2d &m2d);
+	Maze2d *operator->(){return this;}
 
 private:
 	std::string _name;
