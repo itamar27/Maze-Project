@@ -21,7 +21,9 @@ public:
 
 public:
     virtual const State<Position> getStartState() const { return _m2d.getStartPosition(); }
+    
     virtual const State<Position> getGoalState() const { return _m2d.getGoalPosition(); }
+
     virtual std::vector<State<Position>> getAllPossibleStates(State<Position> &s)
     {
         Position tmp = s.getState();

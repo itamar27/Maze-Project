@@ -126,7 +126,7 @@ Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int 
         exit.setY(lastPassage);
     }
 
-    return Maze2d(name, entrance, exit, entrance, tmp2d);
+    return Maze2d(name, entrance, exit, tmp2d);
 }
 
 /*
@@ -320,5 +320,5 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
                 tmp2d[i][j] = 1;
         }
 
-    return Maze2d(name, entrance, exit, entrance, tmp2d);
+    return Maze2d(name, entrance, exit, tmp2d);
 }

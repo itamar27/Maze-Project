@@ -18,6 +18,10 @@ class Solution
 {
 public:
     Solution(){};
+    Solution(const Solution<T> &sol)
+    {
+        this->_solution = sol._solution;
+    };
     ~Solution(){};
 
 public:
@@ -42,7 +46,7 @@ std::ostream &operator<<(std::ostream &out, const Solution<U> &sol)
     int count = 0;
     while (it != sol._solution.end())
     {
-        out << "-->"<<it->getState();
+        out << "-->" << it->getState();
         if (count++ == 5)
         {
             std::cout << std::endl;
@@ -50,8 +54,6 @@ std::ostream &operator<<(std::ostream &out, const Solution<U> &sol)
         }
         it++;
     }
-
-
 
     return out;
 }
