@@ -44,10 +44,9 @@ class DisplayMaze : public Command
 {
 public:
     DisplayMaze(MyModel *md, View *view) : _md(md), _view(view) {}
-    virtual void execute()
+    virtual void execute(std::string s)
     {
-        std::string name; //still needs to parse that name
-        _view->getOStream() << _md->getMaze(name);
+        _view->getOStream() << _md->getMaze(s);
     }
 
 private:
@@ -65,16 +64,16 @@ private:
 class GenerateMaze : public Command
 {
 public:
-    GenerateMaze(MyModel *md) : _md(md) {}
+    GenerateMaze(MyModel *md, View *view) : _md(md) {}
 
-    virtual void execute()
+    virtual void execute(std::string s)
     {
-        std::string name; //Need to parse name of maze
-        _md->generateMaze(name);
+        _md->generateMaze(s);
     }
 
 private:
     MyModel *_md;
+    View *_view;
 };
 
 /*
@@ -87,15 +86,22 @@ private:
 class SaveMaze : public Command
 {
 public:
-    SaveMaze(MyModel *md) : _md(md) {}
+    SaveMaze(MyModel *md, View *view) : _md(md) {}
 
-    virtual void execute()
+    virtual void execute(std::string s)
     {
-        std::cout << "SaveMaze Command" << std::endl;
+        std::string name, filename;
+        std::string delimiter = " ";
+        auto pos = s.find(delimiter);
+        name = s.substr(0, pos);
+        s.erase(0, pos + delimiter.length());
+
+        _md->saveMaze(name, filename);
     }
 
 private:
     MyModel *_md;
+    View *_view;
 };
 
 /*
@@ -108,15 +114,16 @@ private:
 class LoadMaze : public Command
 {
 public:
-    LoadMaze(MyModel *md) : _md(md) {}
+    LoadMaze(MyModel *md, View *view) : _md(md) {}
 
-    virtual void execute()
+    virtual void execute(std::string s)
     {
         std::cout << "LoadMaze Command" << std::endl;
     }
 
 private:
     MyModel *_md;
+    View *_view;
 };
 
 /*
@@ -128,15 +135,16 @@ private:
 class MazeSize : public Command
 {
 public:
-    MazeSize(MyModel *md) : _md(md) {}
+    MazeSize(MyModel *md, View *view) : _md(md) {}
 
-    virtual void execute()
+    virtual void execute(std::string s)
     {
         std::cout << "MazeSize Command" << std::endl;
     }
 
 private:
     MyModel *_md;
+    View *_view;
 };
 
 /*
@@ -149,10 +157,14 @@ private:
 class FileSize : public Command
 {
 public:
-    virtual void execute()
+    virtual void execute(std::string s)
     {
         std::cout << "FileSize Command" << std::endl;
     }
+
+private:
+    MyModel *_md;
+    View *_view;
 };
 
 /*
@@ -165,15 +177,16 @@ public:
 class SolveMaze : public Command
 {
 public:
-    SolveMaze(MyModel *md) : _md(md) {}
+    SolveMaze(MyModel *md, View *view) : _md(md) {}
 
-    virtual void execute()
+    virtual void execute(std::string s)
     {
-        _md->solve();
+        _md->solve(s);
     }
 
 private:
     MyModel *_md;
+    View *_view;
 };
 
 /*
@@ -186,15 +199,16 @@ private:
 class DisplaySolution : public Command
 {
 public:
-    DisplaySolution(MyModel *md) : _md(md) {}
+    DisplaySolution(MyModel *md, View *view) : _md(md) {}
 
     virtual void execute()
     {
-        _md->displaySolution();
+        _md->displaySolution(s);
     }
 
 private:
     MyModel *_md;
+    View *_view;
 };
 
 /*
@@ -214,8 +228,11 @@ public:
 };
 
 /*
- *  Demo Run Command
- 
+ * --------------------------------------------------------------------
+ *       Class:  DemoRun
+ *		 Description: runs a demo program for mazes.
+ * --------------------------------------------------------------------
+ */
 
 class DemoRun : public Command
 {
@@ -229,4 +246,4 @@ public:
 
 private:
     MyModel *_md;
-};*/
+};

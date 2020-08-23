@@ -28,18 +28,17 @@ public:
         _model = new MyModel();
 
         _commands["dir"] = new ShowDir();
-        _commands["generate maze"] = new GenerateMaze(_model);
+        _commands["generate maze"] = new GenerateMaze(_model, _view);
         _commands["display"] = new DisplayMaze(_model, _view);
-        
-        _commands["save maze"] = new SaveMaze(_model);
-        _commands["load maze"] = new LoadMaze(_model);
-        _commands["maze size"] = new MazeSize(_model);
-        _commands["file size"] = new FileSize();
-        _commands["size"] = new MazeSize(_model);
-        _commands["solve"] = new SolveMaze(_model);
-        _commands["display solution"] = new DisplaySolution(_model);
+        _commands["save maze"] = new SaveMaze(_model, _view);
+        _commands["load maze"] = new LoadMaze(_model, _view);
+        _commands["maze size"] = new MazeSize(_model, _view);
+        _commands["file size"] = new FileSize(_model, _view);
+        _commands["size"] = new MazeSize(_model, _view);
+        _commands["solve"] = new SolveMaze(_model, _view);
+        _commands["display solution"] = new DisplaySolution(_model, _view);
         _commands["exit"] = new Exit();
-        //_commands["demo"] = new DemoRun(_model);
+        _commands["demo"] = new DemoRun(_model);
     }
 
     Command *get(const std::string &command)

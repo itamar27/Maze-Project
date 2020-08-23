@@ -13,5 +13,4 @@ class View
 public:
     virtual void start() = 0;
     virtual std::ostream &getOStream() = 0;
-
 };

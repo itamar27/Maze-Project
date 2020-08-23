@@ -67,6 +67,8 @@ void MyModel::saveMaze(std::string name, std::string filename)
 
             _state = "Maze was saved";
             notify();
+
+            oFile.close();
         }
         else
         {
@@ -100,6 +102,8 @@ void MyModel::loadMaze(std::string filename, std::string name)
 
         _mazes[name] = new Maze2d(m2d.read(iFile));
         _mazes[name]->setName(name);
+
+        iFile.close();
     }
 
     else
@@ -110,58 +114,134 @@ void MyModel::loadMaze(std::string filename, std::string name)
 }
 
 /*
+ * a model function to return the Maze size
+ */
+
+int MyModel::getMazeSize(std::string name)
+{
+    auto it = _mazes.find(name);
+    if (it == _mazes.end())
+    {
+        _state = "Maze " + name + " Not exists";
+        notify();
+        return 0;
+    }
+
+    return sizeof(*(it->second));
+}
+
+/*
+ * a model function to return the Maze size
+ */
+int MyModel::getFileSize(std::string name)
+{
+    auto it = _mazes.find(name);
+    if (it == _mazes.end())
+    {
+        _state = "Maze " + name + " Not exists";
+        notify();
+        return 0;
+    }
+
+    MazeCompression comp;
+    int size = 0;
+    size += it->second->getMazeName().length();
+    size += sizeof(it->second->getStartPosition());
+    size += sizeof(it->second->getGoalPosition());
+    size += comp.compress(it->second->getData()).size() * sizeof(int);
+
+    return size;
+}
+
+/*
  * a model function to solve Maze
  */
-void MyModel::solve()
+void MyModel::solve(std::string name, std::string algorithm)
 {
-    std::string s;
-    std::cout << "Please enter a maze name: " << std::endl;
-    std::getline(std::cin, s);
-    auto mazeIt = _mazes.find(s);
-    auto solIt = _solutions.find(mazeIt->second);
+    auto it = _mazes.find(name);
 
-    if (mazeIt == _mazes.end())
+    if (it == _mazes.end())
     {
-        std::cout << "No such maze exists" << std::endl;
+        _state = "No Maze exist with this name";
+        notify();
+        return;
     }
-    else if (solIt->second == nullptr)
-    {
-        MazeSearchable ms(*(solIt->first));
-        ManahattanDistance h;
-        Astar<Position> aManhattan(&h);
-        Solution<Position> solAmanhattan;
 
-        solAmanhattan = aManhattan.solve(&ms);
-        solIt->second = new Solution<Position>(solAmanhattan);
+    auto itsol = _solutions.find(name);
+
+    if (itsol == _solutions.end())
+    {
+        MazeSearchable ms(*(it->second));
+        if ("A*Manhattan" == algorithm)
+        {
+            ManhattanDistance h;
+            Astar<Position> algo(&h);
+            itsol->second = new Solution<Position>(algo.solve(&ms));
+        }
+
+        if ("A*Arieal" == algorithm)
+        {
+            AriealDistance h;
+            Astar<Position> algo(&h);
+            itsol->second = new Solution<Position>(algo.solve(&ms));
+        }
+
+        if ("BFS" == algorithm)
+        {
+            BFS<Position> algo;
+            itsol->second = new Solution<Position>(algo.solve(&ms));
+        }
+
+        else
+        {
+            _state = "No algorithm matches your search";
+            notify();
+            return;
+        }
     }
-    else
-        std::cout << "This maze was already solved" << std::endl;
+
+    _state = "Maze '" + name + "' is solved";
+    notify();
 }
 
 /*
  * a model function to display a solution of a maze if already exists
  */
-void MyModel::displaySolution()
+
+Solution<Position> MyModel::displaySolution(std::string name)
 {
-    std::string s;
-    std::cout << "Please enter a maze name: " << std::endl;
-    std::getline(std::cin, s);
-    auto mazeIt = _mazes.find(s);
-    auto solIt = _solutions.find(mazeIt->second);
-    if (mazeIt == _mazes.end())
+    auto it = _mazes.find(name);
+    auto itsol = _solutions.find(name);
+    Solution<Position> sol;
+    if (it == _mazes.end())
     {
-        std::cout << "No such maze exists" << std::endl;
+        _state = "No Maze matchs this name";
+        notify();
     }
-    else if (solIt->second != nullptr)
+
+    else if (itsol == _solutions.end())
     {
-        std::cout << *(solIt->second) << std::endl;
+        _state = "No Solution for this maze";
+        notify();
     }
     else
-        std::cout << "This maze was hasn't been solved yet" << std::endl;
+        sol = *(itsol->second);
+
+    return sol;
 }
 
 /*
- * MyModel Destructure
+ * a model function to runa demo Maze --> not required on the work details 
+ * but we decided to add it as functionalty of interface
+ */
+void MyModel::runDemo()
+{
+    Demo myDemo;
+    myDemo.run();
+}
+
+/*
+ * MyModel Destructor
  */
 MyModel::~MyModel()
 {
@@ -171,13 +251,3 @@ MyModel::~MyModel()
     for (auto it = _solutions.begin(); it != _solutions.end(); ++it)
         delete it->second;
 }
-
-/*
- * a model function to runa demo Maze
-
-void MyModel::runDemo()
-{
-    Demo myDemo;
-    myDemo.run();
-}
-*/

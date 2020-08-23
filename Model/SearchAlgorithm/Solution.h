@@ -20,19 +20,22 @@ public:
     Solution(){};
     Solution(const Solution<T> &sol)
     {
-        this->_solution = sol._solution;
+        *this = sol;
     };
     ~Solution(){};
 
 public:
     void insertState(State<T> &t) { _solution.insert(_solution.begin(), t); }
+    int getSolutionSize() const { return _solution.size(); }
 
+public:
+    const Solution &operator=(const Solution &sol)
+    {
+        _solution = sol._solution;
+    }
     template <typename U>
     friend std::ostream &operator<<(std::ostream &out, const Solution<U> &sol);
 
-public:
-    int getSolutionSize() const { return _solution.size(); }
-    
     void write(std::ostream &out)
     {
         int n = _solution.size();

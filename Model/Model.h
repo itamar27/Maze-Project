@@ -5,9 +5,15 @@
 #include "Observable.h"
 #include "./Maze2d/Position.h"
 #include "./Maze2d/Maze2d.h"
+#include "./Maze2d/Maze2dGenerator.h"
+#include "./Maze2d/Maze2dState.h"
+#include "./Maze2d/MazeSearchable.h"
+#include "./Maze2d/MazeHeuristics.h"
+#include "./SearchAlgorithm/Astar.h"
+#include "./SearchAlgorithm/BFS.h"
 #include "./SearchAlgorithm/Solution.h"
-#include "Demo/Demo.h"
 #include "./Maze2d/MazeCompression.h"
+#include "./Demo/Demo.h"
 
 /*
  * --------------------------------------------------------------------
@@ -22,12 +28,13 @@ public:
     virtual void generateMaze(std::string s) = 0;
     virtual Maze2d &getMaze(std::string s) = 0;
     virtual void saveMaze(std::string name, std::string filename) = 0;
-    virtual void loadMaze() = 0;
-    virtual void getMazeSize() = 0;
-    virtual void solve() = 0;
-    virtual void displaySolution() = 0;
-    virtual void getFileSize() = 0;
-    //virtual void runDemo() = 0;
+    virtual void loadMaze(std::string filename, std::string name) = 0;
+    virtual int getMazeSize(std::string name) = 0;
+    virtual int getFileSize(std::string name) = 0;
+    virtual void solve(std::string name, std::string algorithm) = 0;
+    virtual Solution<Position> displaySolution(std::string name) = 0;
+
+    virtual void runDemo() = 0;
 };
 
 /*
@@ -48,11 +55,12 @@ public:
     virtual Maze2d &getMaze(std::string s);
     virtual void saveMaze(std::string name, std::string filename);
     virtual void loadMaze(std::string filename, std::string name);
-    virtual void getMazeSize();
-    virtual void solve();
-    virtual void displaySolution();
-    virtual void getFileSize();
-    //virtual void runDemo();
+    virtual int getMazeSize(std::string name);
+    virtual int getFileSize(std::string name);
+    virtual void solve(std::string name, std::string algorithm);
+    virtual Solution<Position> displaySolution(std::string name);
+
+    virtual void runDemo();
 
 private:
     std::map<std::string, Solution<Position> *> _solutions;

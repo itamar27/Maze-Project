@@ -9,7 +9,7 @@ void Demo::run()
 
     //Solving the Maze with A* and BFS
     MazeSearchable ms(m2d);
-    ManahattanDistance h;
+    ManhattanDistance h;
     Astar<Position> aManhattan(&h);
     AriealDistance h2;
     Astar<Position> aArieal(&h2);
