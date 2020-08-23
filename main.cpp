@@ -1,39 +1,48 @@
 #include <fstream>
 
-#include "SearchAlgorithm/SearchAlgorithm.h"
-#include "Maze2d/Maze2dGenerator.h"
-#include "SearchAlgorithm/Searchable.h"
-#include "SearchAlgorithm/State.h"
-#include "Maze2d/Position.h"
-#include "SearchAlgorithm/BFS.h"
-#include "SearchAlgorithm/Astar.h"
-#include "Maze2d/MazeHeuristics.h"
-#include "Maze2d/MazeCompression.h"
-#include "Demo/Demo.h"
+// #include "Model/SearchAlgorithm/SearchAlgorithm.h"
+// #include "Model/Maze2d/Maze2dGenerator.h"
+// #include "Model/SearchAlgorithm/Searchable.h"
+// #include "Model/SearchAlgorithm/State.h"
+// #include "Model/Maze2d/Position.h"
+// #include "Model/SearchAlgorithm/BFS.h"
+// #include "Model/SearchAlgorithm/Astar.h"
+// #include "Model/Maze2d/MazeHeuristics.h"
+// #include "Model/Maze2d/MazeCompression.h"
+// #include "Model/Demo/Demo.h"
+#include "./View/CLI.h"
+#include "./Controller/Controller.h"
+#include "./Model/Model.h"
 
 int main()
 {
-    //Demo demo;
-    //demo.run();
 
-    MyMaze2dGenerator my;
-    Maze2d m2d = my.generate("itamar", 15, 15);
+    CLI * myCli = new CLI(std::cout, std::cin);
 
-    std::cout << m2d << std::endl;
+    myCli->start();
+    // Demo demo;
+    // demo.run();
 
-    MazeCompression compression;
+    // MyMaze2dGenerator my;
+    // Maze2d m2d = my.generate("itamar", 15, 15);
 
-    std::ofstream myfile("maze.txt", std::ios::out| std::ios::binary);
+    // std::cout << m2d << std::endl;
 
-    auto it = compression.compress(m2d.getData());
-    compression.write(myfile, m2d);
+    // MazeCompression compression;
 
-    std::ifstream myfile2("maze.txt", std::ios::in | std::ios::binary);
+    // std::ofstream myfile("maze.txt", std::ios::out| std::ios::binary);
 
-    std::cout << compression.read(myfile2) << std::endl;
+    // auto it = compression.compress(m2d.getData());
+    // compression.write(myfile, m2d);
 
-    myfile2.close();
-    myfile.close();
+    // std::ifstream myfile2("maze.txt", std::ios::in | std::ios::binary);
+
+    // std::cout << compression.read(myfile2) << std::endl;
+
+    // myfile2.close();
+    // myfile.close();
+
+
 }
 
 /*SimpleMaze2dGenerator genMaze2;

@@ -3,6 +3,8 @@
 #include <string>
 
 #include "View.h"
+#include "../Controller/Controller.h"
+
 
 class CLI : public View
 {
@@ -13,7 +15,7 @@ public:
     ~CLI() {}
 
 public:
-    virtual void start() const;
+    virtual void start();
 
 private:
     std::ostream& _out;
