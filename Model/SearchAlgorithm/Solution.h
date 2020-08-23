@@ -20,18 +20,41 @@ public:
     Solution(){};
     Solution(const Solution<T> &sol)
     {
-        this->_solution = sol._solution;
+        *this = sol;
     };
     ~Solution(){};
 
 public:
     void insertState(State<T> &t) { _solution.insert(_solution.begin(), t); }
+    int getSolutionSize() const { return _solution.size(); }
 
+public:
+    const Solution &operator=(const Solution &sol)
+    {
+        _solution = sol._solution;
+    }
     template <typename U>
     friend std::ostream &operator<<(std::ostream &out, const Solution<U> &sol);
 
-public:
-    int getSolutionSize() const { return _solution.size(); }
+    void write(std::ostream &out)
+    {
+        int n = _solution.size();
+        out.write((char *)&n, sizeof(n));
+        out.write((char *)&_solution[0], _solution.size() * sizeof(State<T>));
+    }
+
+    void read(std::ifstream &in)
+    {
+        int n = 0;
+        in.read((char *)&n, sizeof(n));
+
+        State<T> tmp;
+        for (int i = 0; i < n; ++i)
+        {
+            in.read((char *)&tmp, sizeof(tmp));
+            _solution.push_back(tmp)
+        }
+    }
 
 private:
     std::vector<State<T>> _solution;

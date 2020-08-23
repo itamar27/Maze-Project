@@ -1,15 +1,5 @@
-#include <fstream>
+#include <iostream>
 
-// #include "Model/SearchAlgorithm/SearchAlgorithm.h"
-// #include "Model/Maze2d/Maze2dGenerator.h"
-// #include "Model/SearchAlgorithm/Searchable.h"
-// #include "Model/SearchAlgorithm/State.h"
-// #include "Model/Maze2d/Position.h"
-// #include "Model/SearchAlgorithm/BFS.h"
-// #include "Model/SearchAlgorithm/Astar.h"
-// #include "Model/Maze2d/MazeHeuristics.h"
-// #include "Model/Maze2d/MazeCompression.h"
-// #include "Model/Demo/Demo.h"
 #include "./View/CLI.h"
 #include "./Controller/Controller.h"
 #include "./Model/Model.h"
@@ -20,7 +10,10 @@ int main()
     CLI * myCli = new CLI(std::cout, std::cin);
 
     myCli->start();
-    // Demo demo;
+}
+
+
+  // Demo demo;
     // demo.run();
 
     // MyMaze2dGenerator my;
@@ -41,9 +34,6 @@ int main()
 
     // myfile2.close();
     // myfile.close();
-
-
-}
 
 /*SimpleMaze2dGenerator genMaze2;
     std::string name2 = "Barak2";

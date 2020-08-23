@@ -27,9 +27,12 @@ public:
 	std::vector<std::vector<int>> getData() const;
 
 public:
+	void setName(std::string name) { _name = name; }
+	
+public:
 	friend std::ostream &operator<<(std::ostream &out, const Maze2d &m2d);
 	Maze2d &operator=(const Maze2d &m2d);
-	Maze2d *operator->(){return this;}
+	Maze2d *operator->() { return this; }
 
 private:
 	std::string _name;

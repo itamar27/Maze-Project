@@ -8,7 +8,7 @@
 
 
 
-class ManahattanDistance : public Heuristic<Position>
+class ManhattanDistance : public Heuristic<Position>
 {
 public:
     virtual double calc(State<Position> &state, State<Position> &goal)
