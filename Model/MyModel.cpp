@@ -3,10 +3,10 @@
 /*
  *  A model function to generate maze
  */
-void MyModel::generateMaze(std::string s)
+void MyModel::generateMaze(std::string s, int len = 0, int width = 0)
 {
     MyMaze2dGenerator m2dg;
-    Maze2d *m2d = new Maze2d(m2dg.generate(s, 20, 20));
+    Maze2d *m2d = new Maze2d(m2dg.generate(s, len, width));
     _mazes[s] = m2d;
 
     // Observer pattern usage
@@ -36,7 +36,7 @@ Maze2d &MyModel::getMaze(std::string name)
  * a model function to save Maze and his solution
  */
 
-void MyModel::saveMaze(std::string name, std::string filename)
+void MyModel::saveMaze(std::string name, std::ofstream *oFile)
 {
     auto it = _mazes.find(name);
     if (it == _mazes.end())
@@ -47,32 +47,28 @@ void MyModel::saveMaze(std::string name, std::string filename)
 
     else
     {
-        std::ofstream oFile(filename.c_str(), std::ios::out | std::ios::binary | std::ios::app);
-
-        if (oFile.is_open())
+        if (oFile != NULL)
         {
             auto itsol = _solutions.find(name);
             if (itsol != _solutions.end())
             {
-                itsol->second->write(oFile);
+                itsol->second->write(*oFile);
             }
             else
             {
                 int zero = 0;
-                oFile.write((char *)&zero, sizeof(int));
+                oFile->write((char *)&zero, sizeof(int));
             }
 
             MazeCompression comp;
-            comp.write(oFile, *(it->second));
+            comp.write(*oFile, *(it->second));
 
             _state = "Maze was saved";
             notify();
-
-            oFile.close();
         }
         else
         {
-            _state = "Error open this file";
+            _state = "Error opening this file";
             notify();
         }
     }
@@ -82,28 +78,26 @@ void MyModel::saveMaze(std::string name, std::string filename)
  * a model function to load Maze
  */
 
-void MyModel::loadMaze(std::string filename, std::string name)
+void MyModel::loadMaze(std::ifstream *iFile, std::string name)
 {
-    std::ifstream iFile(filename, std::ios::in | std::ios::binary);
-    if (iFile.is_open())
+    if (iFile != NULL)
     {
         MazeCompression m2d;
         Solution<Position> sol;
         int size;
 
-        iFile.read((char *)&size, sizeof(size));
+        iFile->read((char *)&size, sizeof(size));
 
         if (size != 0)
         {
-            iFile.seekg(0, std::ios::beg);
-            sol.read(iFile);
+            iFile->seekg(0, std::ios::beg);
+            sol.read(*iFile);
             _solutions[name] = new Solution<Position>(sol);
         }
 
-        _mazes[name] = new Maze2d(m2d.read(iFile));
-        _mazes[name]->setName(name);
-
-        iFile.close();
+        _mazes[name] = new Maze2d(m2d.read(*iFile));
+        if (name != "")
+            _mazes[name]->setName(name);
     }
 
     else
@@ -238,6 +232,30 @@ void MyModel::runDemo()
 {
     Demo myDemo;
     myDemo.run();
+}
+
+/*
+ * Saves all the mazes in the map and their solutions
+ */
+
+void MyModel::saveAllMazes(std::ofstream *saveFile)
+{
+    for (auto it = _mazes.begin(); it != _mazes.end(); ++it)
+    {
+        saveMaze(it->first, saveFile);
+    }
+}
+
+/*
+ * Load all the mazes in the map and their solutions
+ */
+
+void MyModel::loadAllMazes(std::ifstream *loadFile)
+{
+    for (auto it = _mazes.begin(); it != _mazes.end(); ++it)
+    {
+        loadMaze(loadFile);
+    }
 }
 
 /*
