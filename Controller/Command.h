@@ -1,8 +1,16 @@
 #pragma once
 #include <iostream>
+#include <string>
+#include <vector>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 #include "../Model/Model.h"
 #include "../View/View.h"
+
+
+#define data_file "last_updated.txt"
+
 
 /*
  * --------------------------------------------------------------------
@@ -13,7 +21,7 @@
 class Command
 {
 public:
-    virtual void execute() = 0;
+    virtual void execute(std::vector<std::string> param) = 0;
 };
 
 /*
@@ -26,10 +34,27 @@ public:
 class ShowDir : public Command
 {
 public:
-    virtual void execute()
+    ShowDir(MyModel *md, View *view) : _md(md), _view(view) {}
+
+public:
+    virtual void execute(std::vector<std::string> param)
     {
-        std::cout << "ShowDir Command" << std::endl;
+        if (param.size() < 1)
+        {
+            throw "Not a valid number of arguments for 'dir'";
+        }
+
+        std::string path = "";
+        for (auto it = param.begin(); it != param.end(); ++it)
+            path += *it;
+
+        for (const auto &entry : fs::directory_iterator(path))
+            _view->getOStream() << entry.path() << " ";
     }
+
+private:
+    MyModel *_md;
+    View *_view;
 };
 
 /*
@@ -44,9 +69,16 @@ class DisplayMaze : public Command
 {
 public:
     DisplayMaze(MyModel *md, View *view) : _md(md), _view(view) {}
-    virtual void execute(std::string s)
+
+public:
+    virtual void execute(std::vector<std::string> param)
     {
-        _view->getOStream() << _md->getMaze(s);
+        if (param.size() != 1)
+        {
+            throw "Not a valid number of arguments";
+        }
+
+        _view->getOStream() << _md->getMaze(param[0]);
     }
 
 private:
@@ -66,9 +98,17 @@ class GenerateMaze : public Command
 public:
     GenerateMaze(MyModel *md, View *view) : _md(md) {}
 
-    virtual void execute(std::string s)
+    virtual void execute(std::vector<std::string> param)
     {
-        _md->generateMaze(s);
+        if (param.size() < 1 || param.size() > 3)
+        {
+            throw "Not a valid number of arguments";
+        }
+
+        if (param.size() > 2)
+            _md->generateMaze(param[0], std::stoi(param[1]), std::stoi(param[2]));
+        else
+            _md->generateMaze(param[0]);
     }
 
 private:
@@ -88,15 +128,23 @@ class SaveMaze : public Command
 public:
     SaveMaze(MyModel *md, View *view) : _md(md) {}
 
-    virtual void execute(std::string s)
+    virtual void execute(std::vector<std::string> param)
     {
-        std::string name, filename;
-        std::string delimiter = " ";
-        auto pos = s.find(delimiter);
-        name = s.substr(0, pos);
-        s.erase(0, pos + delimiter.length());
+        if (param.size() != 2)
+        {
+            throw "Not a valid number of arguments";
+        }
 
-        _md->saveMaze(name, filename);
+        else
+        {
+            std::ofstream oFile(param[1], std::ios::out | std::ios::binary);
+            if (oFile.is_open())
+                _md->saveMaze(param[0], &oFile);
+            else
+                throw "Error with this file";
+
+            oFile.close();
+        }
     }
 
 private:
@@ -116,9 +164,23 @@ class LoadMaze : public Command
 public:
     LoadMaze(MyModel *md, View *view) : _md(md) {}
 
-    virtual void execute(std::string s)
+    virtual void execute(std::vector<std::string> param)
     {
-        std::cout << "LoadMaze Command" << std::endl;
+        if (param.size() != 2)
+        {
+            throw "Not a valid number of arguments";
+        }
+
+        else
+        {
+            std::ifstream iFile(param[0], std::ios::out | std::ios::binary);
+            if (iFile.is_open())
+                _md->loadMaze(&iFile);
+            else
+                throw "Error with this file";
+
+            iFile.close();
+        }
     }
 
 private:
@@ -137,9 +199,14 @@ class MazeSize : public Command
 public:
     MazeSize(MyModel *md, View *view) : _md(md) {}
 
-    virtual void execute(std::string s)
+    virtual void execute(std::vector<std::string> param)
     {
-        std::cout << "MazeSize Command" << std::endl;
+        if (param.size() != 1)
+        {
+            throw "Not a valid number of arguments";
+        }
+
+        _view->getOStream() << _md->getMazeSize(param[1]);
     }
 
 private:
@@ -157,9 +224,17 @@ private:
 class FileSize : public Command
 {
 public:
-    virtual void execute(std::string s)
+    FileSize(MyModel *md, View *view) : _md(md) {}
+
+public:
+    virtual void execute(std::vector<std::string> param)
     {
-        std::cout << "FileSize Command" << std::endl;
+        if (param.size() != 1)
+        {
+            throw "Not a valid number of arguments";
+        }
+
+        _view->getOStream() << _md->getFileSize(param[1]);
     }
 
 private:
@@ -179,9 +254,14 @@ class SolveMaze : public Command
 public:
     SolveMaze(MyModel *md, View *view) : _md(md) {}
 
-    virtual void execute(std::string s)
+    virtual void execute(std::vector<std::string> param)
     {
-        _md->solve(s);
+        if (param.size() != 2)
+        {
+            throw "Not a valid number of arguments";
+        }
+
+        _md->solve(param[1], param[2]);
     }
 
 private:
@@ -199,11 +279,16 @@ private:
 class DisplaySolution : public Command
 {
 public:
-    DisplaySolution(MyModel *md, View *view) : _md(md) {}
+    DisplaySolution(MyModel *md, View *view) : _md(md), _view(view) {}
 
-    virtual void execute()
+    virtual void execute(std::vector<std::string> param)
     {
-        _md->displaySolution(s);
+        if (param.size() != 1)
+        {
+            throw "Not a valid number of arguments";
+        }
+
+        _view->getOStream() << _md->displaySolution(param[1]);
     }
 
 private:
@@ -221,10 +306,18 @@ private:
 class Exit : public Command
 {
 public:
-    virtual void execute()
+    Exit(MyModel *md, View *view) : _md(md), _view(view) {}
+
+        virtual void execute(std::vector<std::string> param)
     {
-        std::cout << "exit Command" << std::endl;
+        std::ofstream saveFile(data_file, std::ios::out | std::ios::app | std::ios::binary);
+        _md->saveAllMazes(&saveFile);
+        saveFile.close();
     }
+
+private:
+    MyModel *_md;
+    View *_view;
 };
 
 /*
@@ -239,8 +332,12 @@ class DemoRun : public Command
 public:
     DemoRun(MyModel *md) : _md(md) {}
 
-    virtual void execute()
+    virtual void execute(std::vector<std::string> param)
     {
+        if (param.size() > 1)
+        {
+            throw "Not a valid number of arguments";
+        }
         _md->runDemo();
     }
 
