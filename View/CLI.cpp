@@ -32,6 +32,7 @@ void CLI::start()
         else
             _out << "Unsupported Command!" << std::endl;
     }
+    delete controller;
 }
 
 /*
