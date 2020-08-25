@@ -10,7 +10,7 @@ void Demo::run()
 {
     //Creating a Maze and printing it to console
     MyMaze2dGenerator mg;
-    Maze2d m2d = mg.generate("Barak", 30, 35);
+    Maze2d m2d = mg.generate("Demo-Maze");
     std::cout << m2d;
 
     //Solving the Maze with A* and BFS

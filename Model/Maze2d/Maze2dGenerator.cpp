@@ -34,17 +34,16 @@ std::string Maze2dGeneratorAbstract::measureAlgorithmTime(std::string name,
 Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int width)
 {
     std::default_random_engine dre(std::chrono::steady_clock::now().time_since_epoch().count()); // provide seed
-    std::uniform_int_distribution<int> dist(15, 500);
-    // Minimum size of maze is 15x15, check for size and randomly generate new size
-    if (length < 15 || length > 1000)
+    std::uniform_int_distribution<int> dist(15, 80);
+    if (length < 15 || length > 80)
         length = dist(dre);
 
-    if (width < 15 || width > 1000)
+    if (width < 15 || width > 80)
         width = dist(dre);
 
     std::cout<<"building a maze"<<std::endl;
-    // Creating a new maze2d with walls (=1)
 
+    // Creating a new maze2d with walls (=1)
     std::vector<std::vector<int>> tmp2d(length, std::vector<int>(width, 1));
 
     // Start will get random value, 0 for left to right, 1 for top to bottom
@@ -145,12 +144,11 @@ Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int widt
     std::mt19937 mt(rd());
 
     std::default_random_engine dre(std::chrono::steady_clock::now().time_since_epoch().count()); // provide seed
-    std::uniform_int_distribution<int> dist(15, 150);
+    std::uniform_int_distribution<int> dist(15, 80);
 
-    // Minimum size of maze is 15x15, check for size and randomly generate new size
-    if (length < 15 || length > 150)
+    if (length < 15 || length > 80)
         length = dist(dre);
-    if (width < 15 || width > 150)
+    if (width < 15 || width > 80)
         width = dist(dre);
 
     // Intiazliing maze with walls (=1) and neurtal values (=2)

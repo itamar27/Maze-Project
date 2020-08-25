@@ -7,50 +7,46 @@
 
 void CLI::start()
 {
+
     std::string command = "";
     MyController *controller = new MyController(this);
     std::vector<std::string> parameters;
     while (command.compare("exit") != 0)
     {
-        std::string command = "";
-        MyController *controller = new MyController(this);
-        std::vector<std::string> parameters;
-        while (command.compare("exit") != 0)
+        _out << ">>";
+        std::getline(_in, command);
+
+        parameters = parseInput(command, controller);
+        Command *com = controller->get(command);
+
+        if (nullptr != com)
         {
-            _out << ">>";
-            std::getline(_in, command);
-
-            parameters = parseInput(command, controller);
-            Command *com = controller->get(command);
-
-            if (nullptr != com)
+            try
             {
-                try
-                {
-                    com->execute(parameters);
-                }
-                catch (const char *e)
-                {
-                    std::cout << e << std::endl;
-                }
+                com->execute(parameters);
             }
-            else
-                _out << "Unsupported Command!" << std::endl;
+            catch (const char *e)
+            {
+                std::cout << e << std::endl;
+            }
         }
-        delete controller;
+        else
+            _out << "Unsupported Command!" << std::endl;
     }
+    delete controller;
+}
 
-    /*
+/*
  *      Method: getOstream()
  *      Description: A friend function to return the 'out' stream of view to help other MVC members 
  */
 
-    std::ostream &CLI::getOStream()
-    {
-        return _out;
-    }
+std::ostream &CLI::getOStream()
+{
+    return _out;
+}
 
-    /* 
+/* 
  *      Method: parseInput()
  *      Description: This method is parsing the string into a command and a vector that includes 
  */
@@ -82,7 +78,7 @@ std::vector<std::string> CLI::parseInput(std::string &str, MyController *con)
         if (con->get(commandCopy))
         {
             command = commandCopy;
-            commandParse = i+1;
+            commandParse = i + 1;
         }
         commandCopy += " ";
     }

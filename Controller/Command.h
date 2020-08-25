@@ -9,7 +9,6 @@
 
 #define data_file "last_updated.txt"
 
-
 /*
  * --------------------------------------------------------------------
  *       Class:  Command
@@ -45,7 +44,7 @@ public:
 
         std::string path = "";
         for (auto it = param.begin(); it != param.end(); ++it)
-            path += *it;
+            path += *it + " ";
 
         if (auto dir = opendir(path.c_str()))
         {
@@ -223,7 +222,9 @@ public:
             throw "Not a valid number of arguments";
         }
         int size = _md->getMazeSize(param[0]);
-        _view->getOStream() << size << std::endl;
+
+        if (size != 0)
+            _view->getOStream() << "Size in bytes: " << size << std::endl;
     }
 
 private:
@@ -250,7 +251,8 @@ public:
             throw "Not a valid number of arguments";
         }
         int size = _md->getFileSize(param[0]);
-        _view->getOStream() << size << std::endl;
+        if (size != 0)
+            _view->getOStream() << "Compressed size in bytes: " << size << std::endl;
     }
 
 private:
@@ -272,10 +274,14 @@ public:
 
     virtual void execute(std::vector<std::string> param)
     {
-        if (param.size() != 2)
+        if (param.size() != 2 && param.size() != 3)
         {
             throw "Not a valid number of arguments";
         }
+
+        //concatenating a the vector into string 
+        if(param.size() == 3)
+            param[1] += " " + param[2];
 
         _md->solve(param[0], param[1]);
     }
@@ -304,7 +310,7 @@ public:
             throw "Not a valid number of arguments";
         }
 
-        _view->getOStream() << _md->displaySolution(param[1]);
+        _view->getOStream() << _md->displaySolution(param[0]) << std::endl;
     }
 
 private:
