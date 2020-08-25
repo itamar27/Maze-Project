@@ -25,10 +25,10 @@
 class Model : public Observable
 {
 public:
-    virtual void generateMaze(std::string s, int x = 0, int y = 0) = 0;
-    virtual Maze2d &getMaze(std::string s) = 0;
+    virtual void generateMaze(std::string s, int len, int width) = 0;
+    virtual Maze2d* getMaze(std::string s) = 0;
     virtual void saveMaze(std::string name, std::ofstream *oFile) = 0;
-    virtual void loadMaze(std::ifstream *iFile, std::string name = "") = 0;
+    virtual void loadMaze(std::ifstream *iFile, std::string name) = 0;
     virtual int getMazeSize(std::string name) = 0;
     virtual int getFileSize(std::string name) = 0;
     virtual void solve(std::string name, std::string algorithm) = 0;
@@ -49,8 +49,8 @@ public:
     ~MyModel();
 
 public:
-    virtual void generateMaze(std::string s, int x = 0, int y = 0);
-    virtual Maze2d &getMaze(std::string s);
+    virtual void generateMaze(std::string s, int len = 0, int width = 0);
+    virtual Maze2d* getMaze(std::string s);
     virtual void saveMaze(std::string name, std::ofstream *oFile);
     virtual void loadMaze(std::ifstream *iFile, std::string name = "");
     virtual int getMazeSize(std::string name);

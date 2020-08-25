@@ -4,7 +4,7 @@
  *      Method: generateMaze()
  *      Description: A model function to generate maze
  */
-void MyModel::generateMaze(std::string s, int len = 0, int width = 0)
+void MyModel::generateMaze(std::string s, int len, int width)
 {
     MyMaze2dGenerator m2dg;
     Maze2d *m2d = new Maze2d(m2dg.generate(s, len, width));
@@ -14,23 +14,23 @@ void MyModel::generateMaze(std::string s, int len = 0, int width = 0)
     _state = "Maze is generated";
     notify();
 }
-
 /*
  *      Method: getMaze()
  *      Description: a model function to return a maze that can be displayed
  */
-Maze2d &MyModel::getMaze(std::string name)
+Maze2d *MyModel::getMaze(std::string name)
 {
     auto it = _mazes.find(name);
     if (it == _mazes.end())
     {
         _state = "Maze " + name + " Not exists";
         notify();
+        return nullptr;
     }
 
     else
     {
-        return *(it->second);
+        return (it->second);
     }
 }
 
@@ -98,10 +98,16 @@ void MyModel::loadMaze(std::ifstream *iFile, std::string name)
             sol.read(*iFile);
             _solutions[name] = new Solution<Position>(sol);
         }
-
-        _mazes[name] = new Maze2d(m2d.read(*iFile));
         if (name != "")
+        {
+            _mazes[name] = new Maze2d(m2d.read(*iFile));
             _mazes[name]->setName(name);
+        }
+        else
+        {
+            Maze2d *m2dTmp = new Maze2d(m2d.read(*iFile));
+            _mazes[m2dTmp->getMazeName()] = m2dTmp;
+        }
     }
 
     else
@@ -118,15 +124,17 @@ void MyModel::loadMaze(std::ifstream *iFile, std::string name)
 
 int MyModel::getMazeSize(std::string name)
 {
+    int size = 0;
     auto it = _mazes.find(name);
     if (it == _mazes.end())
     {
         _state = "Maze " + name + " Not exists";
         notify();
-        return 0;
+        return size;
     }
 
-    return sizeof(*(it->second));
+    size = sizeof(*(it->second));
+    return size;
 }
 
 /*
@@ -135,21 +143,20 @@ int MyModel::getMazeSize(std::string name)
  */
 int MyModel::getFileSize(std::string name)
 {
+    int size = 0;
     auto it = _mazes.find(name);
     if (it == _mazes.end())
     {
         _state = "Maze " + name + " Not exists";
         notify();
-        return 0;
+        return size;
     }
 
     MazeCompression comp;
-    int size = 0;
     size += it->second->getMazeName().length();
     size += sizeof(it->second->getStartPosition());
     size += sizeof(it->second->getGoalPosition());
     size += comp.compress(it->second->getData()).size() * sizeof(int);
-
     return size;
 }
 
@@ -160,7 +167,6 @@ int MyModel::getFileSize(std::string name)
 void MyModel::solve(std::string name, std::string algorithm)
 {
     auto it = _mazes.find(name);
-
     if (it == _mazes.end())
     {
         _state = "No Maze exist with this name";
@@ -243,6 +249,7 @@ void MyModel::runDemo()
     Demo myDemo;
     myDemo.run();
 }
+
 
 /*
  *      Method: saveAllMazes()

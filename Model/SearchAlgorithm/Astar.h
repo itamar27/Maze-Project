@@ -96,7 +96,6 @@ public:
         }
 
         sol.insertState(tmpState);
-        tmpState = tmpState.getCameFrom();
         return sol;
     }
 
