@@ -5,8 +5,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class: Maze2dState
- *		 Description:This class is a class for claculating the next state for each state on maze board 
+ *      Class: Maze2dState
+ *      Description:This class is a class for claculating the next state for each state on maze board 
  * --------------------------------------------------------------------
  */
 

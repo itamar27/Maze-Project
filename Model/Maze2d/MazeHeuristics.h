@@ -7,6 +7,12 @@
 #include "Position.h"
 
 
+/*
+ * --------------------------------------------------------------------
+ *      Class: ManhattanDistance()
+ *      Description: This class is impelemnting an heuristic for Maze2d
+ * --------------------------------------------------------------------
+ */
 
 class ManhattanDistance : public Heuristic<Position>
 {
@@ -20,6 +26,13 @@ public:
         return (row + col);
     }
 };
+
+/*
+ * --------------------------------------------------------------------
+ *      Class: AreialDistance()
+ *      Description: This class is impelemnting an heuristic for Maze2d
+ * --------------------------------------------------------------------
+ */
 
 class AriealDistance : public Heuristic<Position>
 {

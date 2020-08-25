@@ -3,8 +3,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class: Position
- *		 Description: This class is used to describe positions on 2 dimensional array.
+ *		Class: Position
+ *		Description: This class is used to describe positions on 2 dimensional array.
  * --------------------------------------------------------------------
  */
 

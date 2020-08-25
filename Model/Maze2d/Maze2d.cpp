@@ -1,18 +1,17 @@
 #include "Maze2d.h"
 
-/*
- * --------------------------------------------------------------------
- *       Method:  Maze2d full class constructor
- * --------------------------------------------------------------------
+
+/* 
+ *		Method: Maze2d
+ *		Description: Maze2d full class constructor
  */
 Maze2d::Maze2d(std::string name, Position entrance,
 			   Position exit, std::vector<std::vector<int>> data)
 	: _name(name), _entrance(entrance), _exit(exit), _data(data) {}
 
 /*
- * --------------------------------------------------------------------
- *       Method:  Maze2d copy constructor
- * --------------------------------------------------------------------
+ *		Method:  Maze2d 
+ *		Description: copy constructor for class Maze2d
  */
 
 Maze2d::Maze2d(const Maze2d &m2d)
@@ -21,9 +20,8 @@ Maze2d::Maze2d(const Maze2d &m2d)
 }
 
 /*
- * --------------------------------------------------------------------
- *       Method:  Maze2d = operator
- * --------------------------------------------------------------------
+ *		Method: operator=
+ *		Description: overloading for assigment operator 
  */
 Maze2d &Maze2d::operator=(const Maze2d &m2d)
 {
@@ -43,9 +41,8 @@ Maze2d &Maze2d::operator=(const Maze2d &m2d)
 }
 
 /*
- * --------------------------------------------------------------------
- *       Method:  Maze2d = operator
- * --------------------------------------------------------------------
+ *		Method:	operator<<
+ *		Description: overloading for 'in' stream operator
  */
 
 std::ostream &operator<<(std::ostream &out, const Maze2d &m2d)
@@ -70,9 +67,8 @@ std::ostream &operator<<(std::ostream &out, const Maze2d &m2d)
 }
 
 /*
- * --------------------------------------------------------------------
- *       Method:  Maze2d getStartPosition()
- * --------------------------------------------------------------------
+ *		Method: getStartPosition()
+ *		Description: return the entrance position of a maze 
  */
 
 Position Maze2d::getStartPosition() const
@@ -81,9 +77,8 @@ Position Maze2d::getStartPosition() const
 }
 
 /*
- * --------------------------------------------------------------------
- *       Method:  Maze2d getGoalPosition()
- * --------------------------------------------------------------------
+ *		Method: getGoalPosition()
+ *		Description: return the goal position of a maze 
  */
 
 Position Maze2d::getGoalPosition() const
@@ -92,9 +87,8 @@ Position Maze2d::getGoalPosition() const
 }
 
 /*
- * --------------------------------------------------------------------
- *       Method:  Maze2d getPossibleMoves() returns all availble moves for specific position on board
- * --------------------------------------------------------------------
+ *		Method: getPossibleMoves() 
+ *		Description: returns all availble moves for specific position on board
  */
 
 std::string *Maze2d::getPossibleMoves(const Position &p) const
@@ -131,9 +125,8 @@ std::string *Maze2d::getPossibleMoves(const Position &p) const
 }
 
 /*
- * --------------------------------------------------------------------
- *       Method:  Maze2d getMazeName() return the name of the Maze
- * --------------------------------------------------------------------
+ *		Method: getMazeName() 
+ *		Description: return the name of the Maze
  */
 
 std::string Maze2d::getMazeName() const
@@ -142,9 +135,8 @@ std::string Maze2d::getMazeName() const
 }
 
 /*
- * --------------------------------------------------------------------
- *       Method:  Maze2d getData() return a 2d vector array
- * --------------------------------------------------------------------
+ *		Method: getData() 
+ *		Description: return a 2d vector array
  */
 
 std::vector<std::vector<int>> Maze2d::getData() const

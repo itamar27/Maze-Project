@@ -8,8 +8,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class: MazeSearchAble
- *		 Description: This class is a structural design pattern - Adapter, between Maze2d and Searchable
+ *      Class: MazeSearchAble
+ *      Description: This class is a structural design pattern - Adapter, between Maze2d and Searchable
  * --------------------------------------------------------------------
  */
 

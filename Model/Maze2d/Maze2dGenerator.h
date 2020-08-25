@@ -14,8 +14,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class:  Maze2dGenerator
- *		 Description: This class is responsible to create a 2d maze.
+ *		Class:  Maze2dGenerator
+ *		Description: This class is responsible to create a 2d maze.
  * --------------------------------------------------------------------
  */
 
@@ -30,8 +30,8 @@ public:
 
 /*
  * --------------------------------------------------------------------
- *       Class:  Maze2dGeneratorAbstract
- *		 Description: This class is responsible in implementing the time measurement algorithm of the maze creation
+ *		Class:  Maze2dGeneratorAbstract
+ *		Description: This class is responsible in implementing the time measurement algorithm of the maze creation
  * --------------------------------------------------------------------
  */
 class Maze2dGeneratorAbstract : public Maze2dGenerator
@@ -46,8 +46,8 @@ public:
 
 /*
  * --------------------------------------------------------------------
- *       Class:  SimpleMaze2dGenerator
- *		 Description: This class implements the creation of a simple type 2d maze
+ *		Class:  SimpleMaze2dGenerator
+ *		Description: This class implements the creation of a simple type 2d maze
  * --------------------------------------------------------------------
  */
 
@@ -63,8 +63,8 @@ public:
 
 /*
  * --------------------------------------------------------------------
- *       Class:  SimpleMaze2dGenerator
- *		 Description: This class implements the creation of a type 2d maze
+ *		Class:  SimpleMaze2dGenerator
+ *		Description: This class implements the creation of a type 2d maze
  * --------------------------------------------------------------------
  */
 

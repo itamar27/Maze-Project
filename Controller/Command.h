@@ -8,14 +8,14 @@ namespace fs = std::filesystem;
 #include "../Model/Model.h"
 #include "../View/View.h"
 
-
 #define data_file "last_updated.txt"
 
 
 /*
  * --------------------------------------------------------------------
  *       Class:  Command
- *		 Description: class that is being used to implement commands for Controller.
+ *		 Description: class that is an interface for commands.
+ *                    (Based on command design pattern).
  * --------------------------------------------------------------------
  */
 class Command
@@ -27,7 +27,7 @@ public:
 /*
  * --------------------------------------------------------------------
  *       Class:  ShowDir
- *		 Description: Class command to show the path to program.
+ *		 Description: Command class to show the file listed in some given path
  * --------------------------------------------------------------------
  */
 
@@ -60,8 +60,8 @@ private:
 /*
  * --------------------------------------------------------------------
  *       Class:  DisplayMaze
- *		 Description: Class command to receive a maze from myModel 
-                      and print it to out channel of myView
+ *		 Description: Command class to receive a maze from myModel 
+ *                    and print it to out channel of myView
  * --------------------------------------------------------------------
  */
 
@@ -89,7 +89,8 @@ private:
 /*
  * --------------------------------------------------------------------
  *       Class:  GenerateMaze
- *		 Description: class command to generate a new maze.
+ *		 Description: Command class to generate a new maze.
+ *                    uses the observer pattern to let the user know when maze is ready
  * --------------------------------------------------------------------
  */
 
@@ -119,7 +120,7 @@ private:
 /*
  * --------------------------------------------------------------------
  *       Class:  SaveMaze
- *		 Description: class command to save compressed maze and if a solution save it as well.
+ *		 Description: Command class to save compressed maze and if a solution save it as well.
  * --------------------------------------------------------------------
  */
 
@@ -155,7 +156,7 @@ private:
 /*
  * --------------------------------------------------------------------
  *       Class:  LoadMaze
- *		 Description: class command that is beign used to load compressed maze and Solution if has one.
+ *		 Description: Command class that is beign used to load compressed maze and Solution if has one.
  * --------------------------------------------------------------------
  */
 
@@ -191,7 +192,7 @@ private:
 /*
  * --------------------------------------------------------------------
  *       Class:  MazeSize
- *		 Description: class Command to display the size of maze [length\height].
+ *		 Description: Command class to display the size of maze [length\height].
  * --------------------------------------------------------------------
  */
 class MazeSize : public Command
@@ -217,7 +218,7 @@ private:
 /*
  * --------------------------------------------------------------------
  *       Class:  FileSize
- *		 Description: class command to display the size of file holding mazes or solution.
+ *		 Description: Command class to display the size of file holding mazes or solution.
  * --------------------------------------------------------------------
  */
 
@@ -245,7 +246,7 @@ private:
 /*
  * --------------------------------------------------------------------
  *       Class:  SolveMaze
- *		 Description: class command for solving a maze.
+ *		 Description: Command class for solving a maze.
  * --------------------------------------------------------------------
  */
 
@@ -272,7 +273,7 @@ private:
 /*
  * --------------------------------------------------------------------
  *       Class:  DisplaySolution
- *		 Description: class command to display the solution for solved maze.
+ *		 Description: Command class to display the solution for solved maze.
  * --------------------------------------------------------------------
  */
 
@@ -299,7 +300,7 @@ private:
 /*
  * --------------------------------------------------------------------
  *       Class:  Exit
- *		 Description: class command to exit a program.
+ *		 Description: Command class to exit a program, save all cached data before closing.
  * --------------------------------------------------------------------
  */
 

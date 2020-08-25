@@ -5,8 +5,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class: A*
- *		 Description: This class implements a generic A* algorithm for any kind of searcherable class
+ *      Class: A*
+ *      Description: This class implements a generic A* algorithm for any kind of searcherable class
  * --------------------------------------------------------------------
  */
 
@@ -17,13 +17,11 @@ class Astar : public CommonSearcher<T>
 public:
     Astar(Heuristic<T> *h) : CommonSearcher<T>()
     {
-
         _h = h;
     }
 
     virtual ~Astar() { delete _h; };
 
-    //------------------------------------------------------------------------------
 public:
     virtual Solution<T> solve(Searchable<T> *s)
     {
@@ -34,12 +32,12 @@ public:
         State<T> start = s->getStartState();
         State<T> u;
 
-        std::vector<State<T>> moves;                        // Will use to get all the next possible states of the problem
+        std::vector<State<T>> moves; // Will use to get all the next possible states of the problem
         this->_openList.push(start);
 
         auto cmp = [](State<T> a, State<T> b) { return a.getState() < b.getState(); }; // lambda function to compare states
-        std::set<State<T>, decltype(cmp)> closedList(cmp);   // set to hold states and ask if they're in it (for evaluated states)
-        std::set<State<T>, decltype(cmp)> copyOpenList(cmp); // set to hold states and ask if they're in it (represents this->_openList)
+        std::set<State<T>, decltype(cmp)> closedList(cmp);                             // set to hold states and ask if they're in it (for evaluated states)
+        std::set<State<T>, decltype(cmp)> copyOpenList(cmp);                           // set to hold states and ask if they're in it (represents this->_openList)
 
         copyOpenList.insert(s->getStartState());
 
@@ -80,21 +78,18 @@ public:
                     moves[i].setCameFrom(u);
 
                     u.calculateCost(moves[i], _h->calc(moves[i], goal));
-
                 }
             }
         }
 
-
-        if (!(u == goal))   // Checks if the problem got a solution at al
+        if (!(u == goal)) // Checks if the problem got a solution at al
             throw "Unsolveable";
 
         Solution<T> sol;
         State<T> tmpState;
         tmpState = u;
 
-
-        while (!(tmpState == start))        // Building Solution by backtracking the parents states
+        while (!(tmpState == start)) // Building Solution by backtracking the parents states
         {
             sol.insertState(tmpState);
             tmpState = tmpState.getCameFrom();

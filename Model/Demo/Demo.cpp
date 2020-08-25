@@ -1,5 +1,11 @@
 #include "Demo.h"
 
+
+/* 
+ *      Method: run
+ *      Description: This method is methods that makes all the demo's actio
+ */
+
 void Demo::run()
 {
     //Creating a Maze and printing it to console

@@ -7,8 +7,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class:  Maze2d
- *		 Description: This class is responsible to hold data on any form of 2 dimension maze.
+ *		Class:  Maze2d
+ *		Description: This class is responsible to hold data on any form of 2 dimension maze.
  * --------------------------------------------------------------------
  */
 

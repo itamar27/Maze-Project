@@ -1,7 +1,8 @@
 #include "Model.h"
 
 /*
- *  A model function to generate maze
+ *      Method: generateMaze()
+ *      Description: A model function to generate maze
  */
 void MyModel::generateMaze(std::string s, int len = 0, int width = 0)
 {
@@ -15,7 +16,8 @@ void MyModel::generateMaze(std::string s, int len = 0, int width = 0)
 }
 
 /*
- * a model function to display Maze
+ *      Method: getMaze()
+ *      Description: a model function to return a maze that can be displayed
  */
 Maze2d &MyModel::getMaze(std::string name)
 {
@@ -33,7 +35,8 @@ Maze2d &MyModel::getMaze(std::string name)
 }
 
 /*
- * a model function to save Maze and his solution
+ *      Method: saveMaze() 
+ *      Description: a model function to save Maze and his solution
  */
 
 void MyModel::saveMaze(std::string name, std::ofstream *oFile)
@@ -75,7 +78,8 @@ void MyModel::saveMaze(std::string name, std::ofstream *oFile)
 }
 
 /*
- * a model function to load Maze
+ *      Method: loadMaze() 
+ *      Description: a model function to load Maze
  */
 
 void MyModel::loadMaze(std::ifstream *iFile, std::string name)
@@ -108,7 +112,8 @@ void MyModel::loadMaze(std::ifstream *iFile, std::string name)
 }
 
 /*
- * a model function to return the Maze size
+ *      Method: getMazeSize() 
+ *      Description: a model function to return the Maze size
  */
 
 int MyModel::getMazeSize(std::string name)
@@ -125,7 +130,8 @@ int MyModel::getMazeSize(std::string name)
 }
 
 /*
- * a model function to return the Maze size
+ *      Method: getFileSize() 
+ *      Description: a model function to return the Maze size
  */
 int MyModel::getFileSize(std::string name)
 {
@@ -148,7 +154,8 @@ int MyModel::getFileSize(std::string name)
 }
 
 /*
- * a model function to solve Maze
+ *      Method: solve()
+ *      Description: a model function to solve Maze
  */
 void MyModel::solve(std::string name, std::string algorithm)
 {
@@ -199,7 +206,8 @@ void MyModel::solve(std::string name, std::string algorithm)
 }
 
 /*
- * a model function to display a solution of a maze if already exists
+ *      Method: displaySolution() 
+ *      Description: a model function to display a solution of a maze if already exists
  */
 
 Solution<Position> MyModel::displaySolution(std::string name)
@@ -225,9 +233,11 @@ Solution<Position> MyModel::displaySolution(std::string name)
 }
 
 /*
- * a model function to runa demo Maze --> not required on the work details 
- * but we decided to add it as functionalty of interface
+ *      Method: runDemo()
+ *      Description: a model function to runa demo Maze --> not required on the work details 
+ *                   but we decided to add it as functionalty of interface
  */
+
 void MyModel::runDemo()
 {
     Demo myDemo;
@@ -235,7 +245,8 @@ void MyModel::runDemo()
 }
 
 /*
- * Saves all the mazes in the map and their solutions
+ *      Method: saveAllMazes()
+ *      Description: Saves all the mazes in the map and their solutions
  */
 
 void MyModel::saveAllMazes(std::ofstream *saveFile)
@@ -247,7 +258,8 @@ void MyModel::saveAllMazes(std::ofstream *saveFile)
 }
 
 /*
- * Load all the mazes in the map and their solutions
+ *      Method: loadAllMazes() 
+ *      Description: Load all the mazes in the map and their solutions
  */
 
 void MyModel::loadAllMazes(std::ifstream *loadFile)
@@ -259,7 +271,8 @@ void MyModel::loadAllMazes(std::ifstream *loadFile)
 }
 
 /*
- * MyModel Destructor
+ *      Method: ~MyModel() 
+ *      Description: MyModel Destructor
  */
 MyModel::~MyModel()
 {

@@ -17,8 +17,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class:  Model
- *		 Description: class that is used as an interface to the Model part in MVC pattern.
+ *      Class:  Model
+ *      Description: class that is used as an interface to the Model part in MVC pattern.
  * --------------------------------------------------------------------
  */
 

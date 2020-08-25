@@ -4,8 +4,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class:  view
- *		 Description: class that is an interface for all View in MVC.
+ *      Class:  View
+ *      Description: class that is an interface for all View in MVC.
  * --------------------------------------------------------------------
  */
 class View

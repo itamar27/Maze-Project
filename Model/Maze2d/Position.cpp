@@ -32,7 +32,8 @@ void Position::setY(int y)
 }
 
 /*
- * This section is for Positions operator overloading 
+ *		Method: operator<< 
+ *		Description: overloading operator<< for position class 
  */
 
 std::ostream &operator<<(std::ostream &out, const Position &p)
@@ -40,6 +41,10 @@ std::ostream &operator<<(std::ostream &out, const Position &p)
 	return out << "{" << p._x << "," << p._y << "}";
 }
 
+/*
+ *		Method: operator= 
+ *		Description: overloading operator= for position class 
+ */
 Position &Position::operator=(const Position &p)
 {
 	_x = p._x;
@@ -48,11 +53,20 @@ Position &Position::operator=(const Position &p)
 	return *this;
 }
 
+/*
+ *		Method: operator== 
+ *		Description: overloading operator== for position class 
+ */
+
 bool Position::operator==(const Position &p) const
 {
 	return ((_x == p._x) && (_y == p._y));
 }
 
+/*
+ *		Method: operator< 
+ *		Description: overloading operator< for position class 
+ */
 bool Position::operator<(const Position &p) const
 {
 	bool t = false;

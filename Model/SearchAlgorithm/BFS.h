@@ -4,8 +4,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class: BFS
- *		 Description: This class implements a generic BFS algorithm for any kind of searcherable class
+ *      Class: BFS
+ *      Description: This class implements a generic BFS algorithm for any kind of searcherable class
  * --------------------------------------------------------------------
  */
 
@@ -20,8 +20,7 @@ public:
     virtual Solution<T> solve(Searchable<T> *s);
 };
 
-//------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------
+
 template <class T>
 Solution<T> BFS<T>::solve(Searchable<T> *s)
 {
@@ -78,8 +77,7 @@ Solution<T> BFS<T>::solve(Searchable<T> *s)
         }
     }
 
-
-    if(!(u == goal))
+    if (!(u == goal))
         throw "Unsolveable";
     Solution<T> sol;
     State<T> tmpState;

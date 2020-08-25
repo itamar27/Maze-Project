@@ -14,11 +14,13 @@
 class Observable
 {
 public:
+    // Add a new observer to the list of this observable member
     void Attach(Observer &obs)
     {
         _observers.push_back(&obs);
     }
 
+    // Notify all observers whom are on mailing list
     void notify()
     {
         for (auto it = _observers.begin(); it != _observers.end(); ++it)
@@ -27,6 +29,7 @@ public:
         }
     }
 
+    // return the state (represented by a string) of the observable member
     std::string getState()
     {
         return _state;
