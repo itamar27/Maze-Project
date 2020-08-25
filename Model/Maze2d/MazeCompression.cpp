@@ -85,6 +85,7 @@ std::vector<std::vector<int>> MazeCompression::decompress(std::vector<int> data,
 void MazeCompression::write(std::ofstream &out, const Maze2d &m2d)
 {
     int n = m2d.getMazeName().length();
+
     const char *name = m2d.getMazeName().c_str();
     int startX = m2d.getStartPosition().getX();
     int startY = m2d.getStartPosition().getY();
@@ -93,6 +94,7 @@ void MazeCompression::write(std::ofstream &out, const Maze2d &m2d)
     int length = m2d.getData().size();
     int width = m2d.getData()[1].size();
     auto vec = compress(m2d.getData());
+    int sizeofvector = vec.size();
 
     out.write((char *)&n, sizeof(n));
     out.write(name, n);
@@ -103,7 +105,8 @@ void MazeCompression::write(std::ofstream &out, const Maze2d &m2d)
     out.write((char *)&length, sizeof(length));
     out.write((char *)&width, sizeof(width));
 
-    out.write((char *)&vec[0], vec.size() * sizeof(int));
+    out.write((char *)&sizeofvector, sizeof(sizeofvector));
+    out.write((char *)&vec[0], sizeofvector * sizeof(int));
 }
 
 /*
@@ -114,6 +117,7 @@ void MazeCompression::write(std::ofstream &out, const Maze2d &m2d)
 Maze2d MazeCompression::read(std::ifstream &in)
 {
     int n = 0;
+    int sizeofvector = 0;
     char *tname;
     int startX = 0;
     int startY = 0;
@@ -136,10 +140,12 @@ Maze2d MazeCompression::read(std::ifstream &in)
     in.read((char *)&exitY, sizeof(exitY));
     in.read((char *)&length, sizeof(length));
     in.read((char *)&width, sizeof(width));
+    in.read((char *)&sizeofvector, sizeof(sizeofvector));
 
     int tmp;
-    while (in.read((char *)&tmp, sizeof(tmp)))
+    for (int i = 0; i < sizeofvector; i++)
     {
+        in.read((char *)&tmp, sizeof(tmp));
         vec.push_back(tmp);
     }
 

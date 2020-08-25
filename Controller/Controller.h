@@ -17,7 +17,7 @@
 class Controller : public Observer
 {
 public:
-    Command *get(const std::string &command) = 0;
+    virtual Command *get(const std::string &command) = 0;
 };
 
 

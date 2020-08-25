@@ -66,7 +66,7 @@ void MyModel::saveMaze(std::string name, std::ofstream *oFile)
             MazeCompression comp;
             comp.write(*oFile, *(it->second));
 
-            _state = "Maze was saved";
+            _state = name + " was saved";
             notify();
         }
         else
@@ -86,17 +86,19 @@ void MyModel::loadMaze(std::ifstream *iFile, std::string name)
 {
     if (iFile != NULL)
     {
+        Solution<Position>* tmpSol;
         MazeCompression m2d;
         Solution<Position> sol;
         int size;
 
+        int fileCursor = iFile->tellg();
         iFile->read((char *)&size, sizeof(size));
-
+        
         if (size != 0)
         {
-            iFile->seekg(0, std::ios::beg);
+            iFile->seekg(fileCursor, std::ios::beg);
             sol.read(*iFile);
-            _solutions[name] = new Solution<Position>(sol);
+            tmpSol = new Solution<Position>(sol);
         }
         if (name != "")
         {
@@ -106,8 +108,15 @@ void MyModel::loadMaze(std::ifstream *iFile, std::string name)
         else
         {
             Maze2d *m2dTmp = new Maze2d(m2d.read(*iFile));
-            _mazes[m2dTmp->getMazeName()] = m2dTmp;
+            name = m2dTmp->getMazeName();
+            _mazes[name] = m2dTmp;
         }
+
+        if(size != 0)
+            _solutions[name] = tmpSol;
+
+        _state = name + " was loaded";
+        notify();
     }
 
     else
@@ -133,7 +142,11 @@ int MyModel::getMazeSize(std::string name)
         return size;
     }
 
-    size = sizeof(*(it->second));
+    auto data_size = it->second->getData();
+    size += it->second->getMazeName().length();
+    size += sizeof(it->second->getStartPosition());
+    size += sizeof(it->second->getGoalPosition());
+    size += (data_size.size() * data_size[0].size()) * sizeof(int);
     return size;
 }
 
@@ -179,24 +192,24 @@ void MyModel::solve(std::string name, std::string algorithm)
     if (itsol == _solutions.end())
     {
         MazeSearchable ms(*(it->second));
-        if ("A*Manhattan" == algorithm)
+        if ("A* Manhattan" == algorithm)
         {
             ManhattanDistance h;
             Astar<Position> algo(&h);
-            itsol->second = new Solution<Position>(algo.solve(&ms));
+            _solutions[name] = new Solution<Position>(algo.solve(&ms));
         }
 
-        if ("A*Arieal" == algorithm)
+        else if ("A* Arieal" == algorithm)
         {
             AriealDistance h;
             Astar<Position> algo(&h);
-            itsol->second = new Solution<Position>(algo.solve(&ms));
+            _solutions[name] = new Solution<Position>(algo.solve(&ms));
         }
 
-        if ("BFS" == algorithm)
+        else if ("BFS" == algorithm)
         {
             BFS<Position> algo;
-            itsol->second = new Solution<Position>(algo.solve(&ms));
+            _solutions[name] = new Solution<Position>(algo.solve(&ms));
         }
 
         else
@@ -250,7 +263,6 @@ void MyModel::runDemo()
     myDemo.run();
 }
 
-
 /*
  *      Method: saveAllMazes()
  *      Description: Saves all the mazes in the map and their solutions
@@ -258,10 +270,18 @@ void MyModel::runDemo()
 
 void MyModel::saveAllMazes(std::ofstream *saveFile)
 {
+    _state = "Saving all mazes...";
+    notify();
+
+    int numofmazes = _mazes.size();
+    saveFile->write((char *)&numofmazes, sizeof(numofmazes));
     for (auto it = _mazes.begin(); it != _mazes.end(); ++it)
     {
         saveMaze(it->first, saveFile);
     }
+
+    _state = "Data was successfully saved";
+    notify();
 }
 
 /*
@@ -271,10 +291,23 @@ void MyModel::saveAllMazes(std::ofstream *saveFile)
 
 void MyModel::loadAllMazes(std::ifstream *loadFile)
 {
-    for (auto it = _mazes.begin(); it != _mazes.end(); ++it)
+    _state = "Loading all mazes from memory...";
+    notify();
+
+    if (loadFile == NULL)
+        throw "File could not open";
+
+    int numofmazes = 0;
+    loadFile->read((char *)&numofmazes, sizeof(numofmazes));
+    std::cout << "Number of mazes loaded " << numofmazes << std::endl;
+
+    for (int i = 0; i < numofmazes; i++)
     {
         loadMaze(loadFile);
     }
+
+    _state = "All data was successfully loaded ";
+    notify();
 }
 
 /*
