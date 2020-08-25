@@ -90,6 +90,5 @@ Solution<T> BFS<T>::solve(Searchable<T> *s)
     }
 
     sol.insertState(tmpState);
-    tmpState = tmpState.getCameFrom();
     return sol;
 }
