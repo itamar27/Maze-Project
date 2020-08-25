@@ -12,8 +12,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class:  Demo
- *		 Description: class That can run a demo of maze generation and solving it.
+ *      Class:  Demo
+ *      Description: class That can run a demo of maze generation and solving it.
  * --------------------------------------------------------------------
  */
 

@@ -10,8 +10,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class: SearchAlgorithm
- *		 Description: This class is a generic abstract interface for any kind of search algorithm
+ *		Class: SearchAlgorithm
+ *		Description: This class is a generic abstract interface for any kind of search algorithm
  * --------------------------------------------------------------------
  */
 
@@ -29,9 +29,9 @@ public:
 
 /*
  * --------------------------------------------------------------------
- *       Class: CommonSearcher
- *		 Description: This class is generic abstract for common search algorithm of some sort
- *					  implemnting the popList method and returing number of nodes evaluated 
+ *		Class: CommonSearcher
+ *		Description: This class is generic abstract for common search algorithm of some sort
+ *					 implemnting the popList method and returing number of nodes evaluated 
  * --------------------------------------------------------------------
  */
 

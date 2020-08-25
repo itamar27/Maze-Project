@@ -6,6 +6,7 @@
  *                   to let our user control eveything, the user will chose his in and out streaming channels
  *                   and will use the view start method to work with our Controller and model parts.
  */
+
 MyController::MyController(View *view)
 {
     if (view != nullptr)
@@ -38,6 +39,7 @@ MyController::MyController(View *view)
  *      Description: This method is part of the observer pattern to update the controller.
  *                   The controller is the observer and needs to decide what to do on coming updates from the observable (the model)
  */
+
 void MyController::update(Observable &o)
 {
     std::string tmp = o.getState();
@@ -50,6 +52,7 @@ void MyController::update(Observable &o)
  *      Description: This method is part of the MVC and build the connection between the interface(view)
  *                   and the command that is part of the controller. 
  */
+
 Command *MyController::get(const std::string &command)
 {
     auto it = _commands.find(command);
@@ -61,6 +64,7 @@ Command *MyController::get(const std::string &command)
 
 /* 
  *      Method: Destructor
+ *      Description: iterate throgh all commands that were allocated in MyController constructor
  */
 
 MyController::~MyController()

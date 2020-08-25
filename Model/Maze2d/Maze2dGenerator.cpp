@@ -1,7 +1,9 @@
 #include "Maze2dGenerator.h"
 
 /*
- * This algorithm measure the time it takes to build a 2d maze
+ *      Method: measureAlgorithmTime()
+ *      Description: This algorithm measure the time it takes to build a 2d maze.
+ * 
  */
 
 std::string Maze2dGeneratorAbstract::measureAlgorithmTime(std::string name,
@@ -26,7 +28,8 @@ std::string Maze2dGeneratorAbstract::measureAlgorithmTime(std::string name,
 }
 
 /*
- * This algorithm build a simple maze based on randomization
+ *      Method: generate() - SimpleMazeGenerator
+ *      Description: This algorithm build a simple maze based on randomization.
  */
 Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int width)
 {
@@ -130,7 +133,8 @@ Maze2d SimpleMaze2dGenerator::generate(const std::string &name, int length, int 
 }
 
 /*
- * This algorithm builds a maze , pesudo code from https://en.wikipedia.org/wiki/Maze_generation_algorithm
+ *      Method: generate() - MyMazeGenerator
+ *      Description: This algorithm builds a maze , pesudo code from https://en.wikipedia.org/wiki/Maze_generation_algorithm
  */
 Maze2d MyMaze2dGenerator::generate(const std::string &name, int length, int width)
 {

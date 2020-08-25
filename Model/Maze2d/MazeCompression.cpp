@@ -1,7 +1,8 @@
 #include "MazeCompression.h"
 
 /*
- * Function to get a row large 2 dimensions int array and compress it to 1 dimensional array
+ *      Method: compress()
+ *      Description: Function to get a row large 2 dimensions int array and compress it to 1 dimensional array
  */
 std::vector<int> MazeCompression::compress(std::vector<std::vector<int>> data)
 {
@@ -46,7 +47,8 @@ std::vector<int> MazeCompression::compress(std::vector<std::vector<int>> data)
 }
 
 /*
- * Function to decompress a one 1d vector into a 2d vector
+ *      Method: decompress() 
+ *      Description: Function to decompress a one 1d vector into a 2d vector
  */
 
 std::vector<std::vector<int>> MazeCompression::decompress(std::vector<int> data, int length, int width)
@@ -77,7 +79,8 @@ std::vector<std::vector<int>> MazeCompression::decompress(std::vector<int> data,
 }
 
 /*
- * Function to write to a file a compressed maze
+ *      Method: write()
+ *      Description: Function to write to a file a compressed maze
  */
 void MazeCompression::write(std::ofstream &out, const Maze2d &m2d)
 {
@@ -104,7 +107,8 @@ void MazeCompression::write(std::ofstream &out, const Maze2d &m2d)
 }
 
 /*
- * Function to load from a file and decompressed maze
+ *      Method:  read()       
+ *      Description: Function to load from a file and decompressed maze
  */
 
 Maze2d MazeCompression::read(std::ifstream &in)

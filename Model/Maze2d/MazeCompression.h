@@ -7,8 +7,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class: MazeCompression
- *		 Description: This class is used to compress maze2d data, writing to file and read it
+ *      Class: MazeCompression
+ *      Description: This class is used to compress maze2d data, writing to file and read it
  * --------------------------------------------------------------------
  */
 

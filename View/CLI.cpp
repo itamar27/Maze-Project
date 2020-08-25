@@ -1,7 +1,7 @@
 #include "CLI.h"
 
 /*
- *      Method: Start
+ *      Method: Start()
  *      Description: This method of CLI is the entire interface for user to work with maze 
  */
 
@@ -35,7 +35,7 @@ void CLI::start()
 }
 
 /*
- *      Method: getOstream
+ *      Method: getOstream()
  *      Description: A friend function to return the 'out' stream of view to help other MVC members 
  */
 
@@ -45,7 +45,7 @@ std::ostream &CLI::getOStream()
 }
 
 /* 
- *      Method: parseInput
+ *      Method: parseInput()
  *      Description: This method is parsing the string into a command and a vector that includes 
  */
 

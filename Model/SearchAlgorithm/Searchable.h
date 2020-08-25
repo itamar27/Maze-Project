@@ -3,8 +3,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class: Searchable
- *		 Description: This class is an interface for search problomes(Such as maze).
+ *      Class: Searchable
+ *      Description: This class is an interface for search problomes(Such as maze).
  * --------------------------------------------------------------------
  */
 

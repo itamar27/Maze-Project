@@ -7,9 +7,9 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class: Solution
- *		 Description: This class is an generic class for holding a solution to an algorithm
- *                    in our case all the states that lad to the sultion of a maze.
+ *      Class: Solution
+ *      Description: This class is an generic class for holding a solution to an algorithm
+ *                   in our case all the states that lad to the sultion of a maze.
  * --------------------------------------------------------------------
  */
 
@@ -27,6 +27,18 @@ public:
 public:
     void insertState(State<T> &t) { _solution.insert(_solution.begin(), t); }
     int getSolutionSize() const { return _solution.size(); }
+    void read(std::ifstream &in)
+    {
+        int n = 0;
+        in.read((char *)&n, sizeof(n));
+
+        State<T> tmp;
+        for (int i = 0; i < n; ++i)
+        {
+            in.read((char *)&tmp, sizeof(tmp));
+            _solution.push_back(tmp)
+        }
+    }
 
 public:
     const Solution &operator=(const Solution &sol)
@@ -41,19 +53,6 @@ public:
         int n = _solution.size();
         out.write((char *)&n, sizeof(n));
         out.write((char *)&_solution[0], _solution.size() * sizeof(State<T>));
-    }
-
-    void read(std::ifstream &in)
-    {
-        int n = 0;
-        in.read((char *)&n, sizeof(n));
-
-        State<T> tmp;
-        for (int i = 0; i < n; ++i)
-        {
-            in.read((char *)&tmp, sizeof(tmp));
-            _solution.push_back(tmp)
-        }
     }
 
 private:

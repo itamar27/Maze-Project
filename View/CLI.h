@@ -8,8 +8,8 @@
 
 /*
  * --------------------------------------------------------------------
- *       Class:  CLI 
- *		 Description: class that is being used to implement the View interface (This is MyView according to work demends).
+ *      Class:  CLI 
+ *      Description: class that is being used to implement the View interface (This is MyView according to work demends).
  * --------------------------------------------------------------------
  */
 
